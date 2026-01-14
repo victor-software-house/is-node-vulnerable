@@ -3,110 +3,164 @@
  */
 
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
-// eslint-disable-next-line no-restricted-imports -- scripts don't use project Zod extensions
-import type { ZodSchema } from 'zod';
+import { z } from 'zod';
+import * as z4 from 'zod/v4/core';
 
 import type { CacheConfig } from './types.js';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const CACHE_DIR = path.join(__dirname, '.cache');
+import { debug, warn } from './logger.js';
+
+const CACHE_DIR = path.join(os.homedir(), '.cache', 'node-security-checker');
 
 // Ensure cache directory exists
 if (!fs.existsSync(CACHE_DIR)) {
-   fs.mkdirSync(CACHE_DIR, { recursive: true });
+	fs.mkdirSync(CACHE_DIR, { recursive: true });
 }
 
 export const CACHE_STORE = {
-   security: {
-      url: 'https://raw.githubusercontent.com/nodejs/security-wg/main/vuln/core/index.json',
-      jsonFile: path.join(CACHE_DIR, 'security.json'),
-      etagFile: path.join(CACHE_DIR, 'security.etag'),
-   },
-   schedule: {
-      url: 'https://raw.githubusercontent.com/nodejs/Release/main/schedule.json',
-      jsonFile: path.join(CACHE_DIR, 'schedule.json'),
-      etagFile: path.join(CACHE_DIR, 'schedule.etag'),
-   },
+	schedule: {
+		etagFile: path.join(CACHE_DIR, 'schedule.etag'),
+		jsonFile: path.join(CACHE_DIR, 'schedule.json'),
+		url: 'https://raw.githubusercontent.com/nodejs/Release/main/schedule.json',
+	},
+	security: {
+		etagFile: path.join(CACHE_DIR, 'security.etag'),
+		jsonFile: path.join(CACHE_DIR, 'security.json'),
+		url: 'https://raw.githubusercontent.com/nodejs/security-wg/main/vuln/core/index.json',
+	},
 } as const;
 
-function debug(msg: string): void {
-   if (process.env.DEBUG === '1') {
-      console.debug(`[DEBUG] ${msg}`);
-   }
+const FETCH_TIMEOUT_MS = 10000;
+const MAX_RETRIES = 3;
+const RETRY_DELAY_MS = 1000;
+
+/**
+ * Fetch data with ETag-based caching and retry logic
+ *
+ * @param config - Cache configuration with URL and file paths
+ * @param schema - Zod schema to validate the fetched data
+ * @returns Validated data from cache or network
+ * @throws Error if fetch fails and no cache is available
+ */
+export async function fetchWithCache<T extends z4.$ZodType>(
+	config: CacheConfig,
+	schema: T,
+): Promise<z4.output<T>> {
+	const cachedETag = loadCachedETag(config.etagFile);
+
+	debug(`Fetching: ${config.url}`);
+
+	try {
+		const headResponse = await fetchWithRetry(
+			{ method: 'HEAD' },
+			MAX_RETRIES,
+			config.url,
+		);
+		const upstreamETag = headResponse.headers.get('etag');
+
+		if (
+			upstreamETag !== null &&
+			upstreamETag === cachedETag &&
+			fs.existsSync(config.jsonFile)
+		) {
+			debug(`Using cached version: ${config.jsonFile}`);
+			const cached = fs.readFileSync(config.jsonFile, 'utf-8');
+			return z.parse(schema, JSON.parse(cached));
+		}
+
+		debug(`Downloading fresh data from ${config.url}`);
+		const response = await fetchWithRetry({}, MAX_RETRIES, config.url);
+		const data = await response.text();
+
+		fs.writeFileSync(config.jsonFile, data, 'utf-8');
+
+		if (upstreamETag !== null) {
+			fs.writeFileSync(config.etagFile, upstreamETag, 'utf-8');
+			debug(`Saved new ETag: ${upstreamETag}`);
+		}
+
+		return z.parse(schema, JSON.parse(data));
+	} catch (error: unknown) {
+		if (fs.existsSync(config.jsonFile)) {
+			warn(`Network error, using stale cache: ${config.jsonFile}`);
+			const cached = fs.readFileSync(config.jsonFile, 'utf-8');
+			return z.parse(schema, JSON.parse(cached));
+		}
+
+		const errorMessage = error instanceof Error ? error.message : String(error);
+		throw new Error(
+			`Failed to fetch data and no cache available: ${errorMessage}`,
+		);
+	}
 }
 
-function loadCachedETag(etagFile: string): string | null {
-   if (fs.existsSync(etagFile)) {
-      const etag = fs.readFileSync(etagFile, 'utf-8').trim();
-      debug(`Loaded cached ETag: ${etag}`);
-      return etag;
-   }
-   return null;
+async function fetchWithRetry(
+	options: RequestInit = {},
+	retries = MAX_RETRIES,
+	url: string,
+): Promise<Response> {
+	for (let attempt = 1; attempt <= retries; attempt++) {
+		try {
+			const response = await fetchWithTimeout(url, options);
+
+			if (!response.ok) {
+				throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+			}
+
+			return response;
+		} catch (error: unknown) {
+			const isLastAttempt = attempt === retries;
+
+			if (isLastAttempt) {
+				throw error;
+			}
+
+			const errorMessage =
+				error instanceof Error ? error.message : String(error);
+			warn(
+				`Fetch attempt ${attempt}/${retries} failed: ${errorMessage}. Retrying...`,
+			);
+
+			await sleep(RETRY_DELAY_MS * attempt);
+		}
+	}
+
+	throw new Error('Failed after maximum retries');
 }
 
-export async function fetchWithCache<T>(
-   config: CacheConfig,
-   schema: ZodSchema<T>,
-): Promise<T> {
-   const cachedETag = loadCachedETag(config.etagFile);
+async function fetchWithTimeout(
+	url: string,
+	options: RequestInit = {},
+): Promise<Response> {
+	const controller = new AbortController();
+	const timeout = setTimeout(() => {
+		controller.abort();
+	}, FETCH_TIMEOUT_MS);
 
-   debug(`Fetching: ${config.url}`);
+	try {
+		const response = await fetch(url, {
+			...options,
+			signal: controller.signal,
+		});
+		return response;
+	} finally {
+		clearTimeout(timeout);
+	}
+}
 
-   try {
-      const headResponse = await fetch(config.url, { method: 'HEAD' });
+function loadCachedETag(etagFile: string): null | string {
+	if (fs.existsSync(etagFile)) {
+		const etag = fs.readFileSync(etagFile, 'utf-8').trim();
+		debug(`Loaded cached ETag: ${etag}`);
+		return etag;
+	}
+	return null;
+}
 
-      if (!headResponse.ok) {
-         throw new Error(
-            `HEAD request failed with status ${headResponse.status}`,
-         );
-      }
-
-      const upstreamETag = headResponse.headers.get('etag');
-
-      if (
-         upstreamETag &&
-         upstreamETag === cachedETag &&
-         fs.existsSync(config.jsonFile)
-      ) {
-         debug(`Using cached version: ${config.jsonFile}`);
-         const cached = fs.readFileSync(config.jsonFile, 'utf-8');
-         return schema.parse(JSON.parse(cached));
-      }
-
-      debug(`Downloading fresh data from ${config.url}`);
-      const response = await fetch(config.url);
-
-      if (!response.ok) {
-         throw new Error(`GET request failed with status ${response.status}`);
-      }
-
-      const data = await response.text();
-
-      fs.writeFileSync(config.jsonFile, data, 'utf-8');
-
-      if (upstreamETag) {
-         fs.writeFileSync(config.etagFile, upstreamETag, 'utf-8');
-         debug(`Saved new ETag: ${upstreamETag}`);
-      }
-
-      return schema.parse(JSON.parse(data));
-   } catch (error: unknown) {
-      if (fs.existsSync(config.jsonFile)) {
-         console.warn(
-            `[WARN] Network error, using stale cache: ${config.jsonFile}`,
-         );
-         const cached = fs.readFileSync(config.jsonFile, 'utf-8');
-         return schema.parse(JSON.parse(cached));
-      }
-
-      const errorMessage =
-         error instanceof Error ? error.message : String(error);
-      throw new Error(
-         `Failed to fetch ${config.url} and no cache available: ${errorMessage}`,
-      );
-   }
+async function sleep(ms: number): Promise<void> {
+	return new Promise((resolve) => {
+		setTimeout(resolve, ms);
+	});
 }

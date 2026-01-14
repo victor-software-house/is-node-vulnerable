@@ -2,46 +2,35 @@
  * Type definitions for Node.js security checker
  */
 
-export interface VulnerabilityEntry {
-   cve: string;
-   vulnerable: string; // semver range
-   patched: string; // semver range
-   severity: 'critical' | 'high' | 'medium' | 'low' | 'unknown';
-   overview: string;
-   affectedEnvironments?: string[];
-}
+import * as z4 from 'zod/v4/core';
 
-export interface SecurityDatabase {
-   [cve: string]: VulnerabilityEntry;
-}
-
-export interface ReleaseScheduleEntry {
-   start: string;
-   end?: string;
-   lts?: string;
-   maintenance?: string;
-   codename?: string;
-}
-
-export interface ReleaseSchedule {
-   [version: string]: ReleaseScheduleEntry;
-}
+import type {
+	releaseScheduleEntrySchema,
+	releaseScheduleSchema,
+	securityDatabaseSchema,
+	vulnerabilityEntrySchema,
+} from './schemas.js';
 
 export interface CacheConfig {
-   url: string;
-   jsonFile: string;
-   etagFile: string;
+	etagFile: string;
+	jsonFile: string;
+	url: string;
 }
 
+export type ReleaseSchedule = z4.output<typeof releaseScheduleSchema>;
+export type ReleaseScheduleEntry = z4.output<typeof releaseScheduleEntrySchema>;
+export type SecurityDatabase = z4.output<typeof securityDatabaseSchema>;
+export type VulnerabilityEntry = z4.output<typeof vulnerabilityEntrySchema>;
+
 export const PLATFORMS = [
-   'aix',
-   'darwin',
-   'freebsd',
-   'linux',
-   'openbsd',
-   'sunos',
-   'win32',
-   'android',
+	'aix',
+	'android',
+	'darwin',
+	'freebsd',
+	'linux',
+	'openbsd',
+	'sunos',
+	'win32',
 ] as const;
 
 export type Platform = (typeof PLATFORMS)[number];

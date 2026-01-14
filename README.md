@@ -39,7 +39,10 @@ SKIP_NODE_SECURITY_CHECK=1 node index.js
 ### As Module
 
 ```typescript
-import { isNodeVulnerable, isNodeEOL } from '@victor-software-studio/node-security-checker';
+import {
+	isNodeVulnerable,
+	isNodeEOL,
+} from '@victor-software-studio/node-security-checker';
 
 // Check if a specific version is vulnerable
 const vulnerable = await isNodeVulnerable('v20.10.0', 'darwin');
@@ -54,10 +57,10 @@ console.log(isEOL); // true
 
 ```json
 {
-  "scripts": {
-    "prebuild": "node-security-checker",
-    "check:security": "DEBUG=1 node-security-checker"
-  }
+	"scripts": {
+		"prebuild": "node-security-checker",
+		"check:security": "DEBUG=1 node-security-checker"
+	}
 }
 ```
 
@@ -68,6 +71,7 @@ console.log(isEOL); // true
 Check if a Node.js version is vulnerable to known CVEs.
 
 **Parameters:**
+
 - `version`: Node.js version (e.g., `"v20.10.0"`, `"18.0.0"`)
 - `platform`: Optional platform (`"darwin"`, `"linux"`, `"win32"`, etc.)
 
@@ -78,6 +82,7 @@ Check if a Node.js version is vulnerable to known CVEs.
 Check if a Node.js version is end-of-life.
 
 **Parameters:**
+
 - `version`: Node.js version (e.g., `"v16.0.0"`)
 
 **Returns:** `true` if EOL, `false` otherwise
