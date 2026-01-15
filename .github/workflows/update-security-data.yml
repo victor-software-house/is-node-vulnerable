@@ -69,7 +69,8 @@ jobs:
 
       - name: Bump version
         if: steps.changes.outputs.changed == 'true'
-        run: pnpm version patch -m "chore: bump version to %s [skip ci]"
+        run: |
+          pnpm version patch --message "chore: bump version to %s [skip ci]"
 
       - name: Push commits and tags
         if: steps.changes.outputs.changed == 'true'
