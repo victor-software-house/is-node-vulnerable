@@ -16,7 +16,7 @@ describe('Data Validation', () => {
 			const result = securityDatabaseSchema.safeParse(securityData);
 
 			if (!result.success) {
-				console.error('Security data validation errors:', result.error.errors);
+				console.error('Security data validation errors:', result.error.issues);
 			}
 
 			expect(result.success).toBe(true);
@@ -49,7 +49,7 @@ describe('Data Validation', () => {
 			const result = releaseScheduleSchema.safeParse(scheduleData);
 
 			if (!result.success) {
-				console.error('Schedule data validation errors:', result.error.errors);
+				console.error('Schedule data validation errors:', result.error.issues);
 			}
 
 			expect(result.success).toBe(true);
