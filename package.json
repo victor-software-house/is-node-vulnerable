@@ -1,6 +1,6 @@
 {
 	"name": "@victor-software-house/is-node-vulnerable",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "TypeScript-based Node.js security vulnerability checker with Zod validation and bundled security data",
 	"type": "module",
 	"main": "./dist/index.mjs",
