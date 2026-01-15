@@ -64,13 +64,16 @@ jobs:
       - name: Commit data changes
         if: steps.changes.outputs.changed == 'true'
         run: |
-          git add data/
+          git add -A
           git commit -m "chore(data): update security data [$(date -u +%Y-%m-%d)]"
 
       - name: Bump version
         if: steps.changes.outputs.changed == 'true'
         run: |
-          pnpm version patch --message "chore: bump version to %s [skip ci]"
+          pnpm version patch --message "chore: bump version to %s [skip ci]" --no-git-tag-version
+          git add package.json
+          git commit -m "chore: bump version to $(node -p "require('./package.json').version") [skip ci]"
+          git tag "v$(node -p "require('./package.json').version")"
 
       - name: Push commits and tags
         if: steps.changes.outputs.changed == 'true'
