@@ -5,10 +5,10 @@
 import { satisfies } from 'semver';
 import { z } from 'zod';
 
-import type { ReleaseScheduleEntry } from './types';
+import type { ReleaseScheduleEntry } from '@/types';
 
-import scheduleData from './data/schedule.json' with { type: 'json' };
-import { releaseScheduleSchema } from './schemas';
+import scheduleData from '@/data/schedule.json' with { type: 'json' };
+import { releaseScheduleSchema } from '@/schemas';
 
 /**
  * Check if a Node.js version is end-of-life

@@ -1,4 +1,5 @@
 // @ts-check
+import importAlias from '@dword-design/eslint-plugin-import-alias';
 import eslint from '@eslint/js';
 import perfectionist from 'eslint-plugin-perfectionist';
 import tseslint from 'typescript-eslint';
@@ -8,6 +9,7 @@ export default tseslint.config(
 	...tseslint.configs.strictTypeChecked,
 	...tseslint.configs.stylisticTypeChecked,
 	perfectionist.configs['recommended-natural'],
+	importAlias.configs.recommended,
 	{
 		languageOptions: {
 			parserOptions: {
@@ -16,6 +18,17 @@ export default tseslint.config(
 			},
 		},
 		rules: {
+			// Enforce import alias usage (including for same-level files)
+			'@dword-design/import-alias/prefer-alias': [
+				'error',
+				{
+					alias: {
+						'@': '.',
+					},
+					// Enable aliases for subpaths (same directory files)
+					aliasForSubpaths: true,
+				},
+			],
 			// Strict type checking
 			'@typescript-eslint/explicit-function-return-type': [
 				'error',

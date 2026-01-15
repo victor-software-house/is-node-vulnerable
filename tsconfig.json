@@ -4,6 +4,10 @@
 		"module": "ESNext",
 		"lib": ["ES2022"],
 		"moduleResolution": "bundler",
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./*"]
+		},
 		"outDir": "./dist",
 		"rootDir": ".",
 		"declaration": true,

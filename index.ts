@@ -19,19 +19,19 @@
 
 import process from 'node:process';
 
-import { runCLI } from './cli';
-import { error, warn } from './logger';
+import { runCLI } from '@/cli';
+import { error, warn } from '@/logger';
 
 // Re-export public API
-export { isNodeEOL } from './schedule';
+export { isNodeEOL } from '@/schedule';
 export type {
 	Platform,
 	ReleaseSchedule,
 	ReleaseScheduleEntry,
 	SecurityDatabase,
 	VulnerabilityEntry,
-} from './types';
-export { isNodeVulnerable } from './vulnerability';
+} from '@/types';
+export { isNodeVulnerable } from '@/vulnerability';
 
 // CLI execution when run directly
 if (
