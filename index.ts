@@ -2,12 +2,12 @@
 /**
  * Node.js Security Vulnerability Checker
  *
- * Based on is-my-node-vulnerable with proper TypeScript typing and caching.
+ * Based on is-my-node-vulnerable with proper TypeScript typing and bundled security data.
  *
- * Caches vulnerability data locally in ~/.cache/node-security-checker/ to avoid repeated network requests.
+ * Security data is bundled with the package and updated daily via GitHub Actions.
  *
  * Usage:
- *   pnpm run check                              # Check with cache
+ *   pnpm run check                              # Check current Node.js version
  *   SKIP_NODE_SECURITY_CHECK=1 pnpm build       # Skip check (emergency)
  *   DEBUG=1 pnpm run check                      # Enable debug output
  *
@@ -43,9 +43,11 @@ if (
 		process.exit(0);
 	}
 
-	runCLI().catch((err: unknown) => {
+	try {
+		runCLI();
+	} catch (err: unknown) {
 		error('[ERROR] Security check failed:');
 		console.error(err);
 		process.exit(2);
-	});
+	}
 }

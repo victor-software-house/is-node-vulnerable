@@ -11,12 +11,6 @@ import type {
 	vulnerabilityEntrySchema,
 } from './schemas.js';
 
-export interface CacheConfig {
-	etagFile: string;
-	jsonFile: string;
-	url: string;
-}
-
 export type ReleaseSchedule = z4.output<typeof releaseScheduleSchema>;
 export type ReleaseScheduleEntry = z4.output<typeof releaseScheduleEntrySchema>;
 export type SecurityDatabase = z4.output<typeof securityDatabaseSchema>;

@@ -1,6 +1,6 @@
 # Node.js Security Vulnerability Checker
 
-TypeScript-based Node.js security vulnerability checker with Zod validation and local caching.
+TypeScript-based Node.js security vulnerability checker with Zod validation and bundled security data.
 
 Based on [`is-my-node-vulnerable`](https://github.com/nodejs/is-my-node-vulnerable) but fully typed and properly structured.
 
@@ -8,8 +8,8 @@ Based on [`is-my-node-vulnerable`](https://github.com/nodejs/is-my-node-vulnerab
 
 - **TypeScript**: Full type safety with comprehensive type definitions
 - **Zod Validation**: All external JSON data validated with Zod schemas
-- **ETag Caching**: Efficient HTTP caching with ETag support
-- **Stale Cache Fallback**: Uses cached data on network failures
+- **Bundled Data**: Security data included with package, no network calls at runtime
+- **Daily Auto-Updates**: Data automatically updated via GitHub Actions
 - **Platform-Specific**: Checks platform-specific vulnerabilities
 - **Modular**: Clean separation of concerns
 
@@ -45,11 +45,11 @@ import {
 } from '@victor-software-studio/node-security-checker';
 
 // Check if a specific version is vulnerable
-const vulnerable = await isNodeVulnerable('v20.10.0', 'darwin');
+const vulnerable = isNodeVulnerable('v20.10.0', 'darwin');
 console.log(vulnerable); // false
 
 // Check if a version is end-of-life
-const isEOL = await isNodeEOL('v16.0.0');
+const isEOL = isNodeEOL('v16.0.0');
 console.log(isEOL); // true
 ```
 
@@ -66,7 +66,7 @@ console.log(isEOL); // true
 
 ## API
 
-### `isNodeVulnerable(version: string, platform?: Platform): Promise<boolean>`
+### `isNodeVulnerable(version: string, platform?: Platform): boolean`
 
 Check if a Node.js version is vulnerable to known CVEs.
 
@@ -77,7 +77,7 @@ Check if a Node.js version is vulnerable to known CVEs.
 
 **Returns:** `true` if vulnerable or EOL, `false` otherwise
 
-### `isNodeEOL(version: string): Promise<boolean>`
+### `isNodeEOL(version: string): boolean`
 
 Check if a Node.js version is end-of-life.
 
@@ -86,6 +86,15 @@ Check if a Node.js version is end-of-life.
 - `version`: Node.js version (e.g., `"v16.0.0"`)
 
 **Returns:** `true` if EOL, `false` otherwise
+
+## Data Source
+
+Security data is bundled with the package and automatically updated daily via GitHub Actions:
+
+- **schedule.json**: Node.js release schedule from [nodejs/Release](https://github.com/nodejs/Release)
+- **security.json**: CVE database from [nodejs/security-wg](https://github.com/nodejs/security-wg)
+
+Data is synchronized daily at midnight UTC. For the latest security updates, use the most recent package version.
 
 ## Exit Codes (CLI)
 

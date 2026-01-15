@@ -2,17 +2,36 @@
  * CLI interface for Node.js security checker
  */
 
+import fs from 'node:fs';
+import path from 'node:path';
 import process from 'node:process';
+import { fileURLToPath } from 'node:url';
+import { z } from 'zod';
 
 import type { VulnerabilityEntry } from './types.js';
 
-import { CACHE_STORE, fetchWithCache } from './cache.js';
 import { error, info } from './logger.js';
 import { isNodeEOL } from './schedule.js';
 import { securityDatabaseSchema } from './schemas.js';
 import { checkPlatform, getVulnerabilityList } from './vulnerability.js';
 
-export async function runCLI(): Promise<void> {
+// Find project root by looking for package.json
+function findProjectRoot(startPath: string): string {
+	let currentPath = startPath;
+	while (currentPath !== path.dirname(currentPath)) {
+		if (fs.existsSync(path.join(currentPath, 'package.json'))) {
+			return currentPath;
+		}
+		currentPath = path.dirname(currentPath);
+	}
+	throw new Error('Could not find project root (package.json not found)');
+}
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const PROJECT_ROOT = findProjectRoot(__dirname);
+const SECURITY_FILE = path.join(PROJECT_ROOT, 'data/security.json');
+
+export function runCLI(): void {
 	const nodeVersion = process.version;
 	const platformString = process.platform;
 
@@ -23,7 +42,7 @@ export async function runCLI(): Promise<void> {
 	info(`Current Node.js version: ${nodeVersion}`);
 	info(`Platform: ${platform}\n`);
 
-	const isEOL = await isNodeEOL(nodeVersion);
+	const isEOL = isNodeEOL(nodeVersion);
 
 	if (isEOL) {
 		error('[FAIL] Node.js version is end-of-life.\n');
@@ -34,10 +53,8 @@ export async function runCLI(): Promise<void> {
 		process.exit(1);
 	}
 
-	const securityDb = await fetchWithCache(
-		CACHE_STORE.security,
-		securityDatabaseSchema,
-	);
+	const data = fs.readFileSync(SECURITY_FILE, 'utf-8');
+	const securityDb = z.parse(securityDatabaseSchema, JSON.parse(data));
 
 	const vulnerabilities = getVulnerabilityList(
 		nodeVersion,

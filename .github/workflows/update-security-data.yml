@@ -1,0 +1,45 @@
+name: Update Security Data
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Daily at midnight UTC
+  workflow_dispatch: # Manual trigger
+
+permissions:
+  contents: write # Required to push commits
+
+jobs:
+  update:
+    name: Update Node.js Security Data
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download schedule.json
+        run: |
+          curl -sSf -o data/schedule.json \
+            https://raw.githubusercontent.com/nodejs/Release/main/schedule.json
+
+      - name: Download security.json
+        run: |
+          curl -sSf -o data/security.json \
+            https://raw.githubusercontent.com/nodejs/security-wg/main/vuln/core/index.json
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet data/; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          git commit -m "chore(data): update security data [$(date -u +%Y-%m-%d)]"
+          git push
