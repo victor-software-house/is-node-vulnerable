@@ -3,6 +3,7 @@
  * Ensures security.json and schedule.json conform to expected schemas
  */
 
+import { assertIsDefined, assertIsString } from '@tool-belt/type-predicates';
 import { describe, expect, it } from 'vitest';
 
 import scheduleData from '@/data/schedule.json';
@@ -31,10 +32,10 @@ describe('Data Validation', () => {
 
 			// Verify first entry has required fields
 			const firstKey = entries[0];
-			if (typeof firstKey !== 'string') return;
+			assertIsString(firstKey);
 
 			const firstEntry = result[firstKey];
-			if (typeof firstEntry === 'undefined') return;
+			assertIsDefined(firstEntry);
 
 			expect(firstEntry).toHaveProperty('cve');
 			expect(firstEntry).toHaveProperty('patched');
@@ -64,10 +65,10 @@ describe('Data Validation', () => {
 
 			// Verify entries have start dates
 			const firstKey = versions[0];
-			if (typeof firstKey !== 'string') return;
+			assertIsString(firstKey);
 
 			const firstVersion = result[firstKey];
-			if (typeof firstVersion === 'undefined') return;
+			assertIsDefined(firstVersion);
 
 			expect(firstVersion).toHaveProperty('start');
 			expect(firstVersion.start).toMatch(/^\d{4}-\d{2}-\d{2}$/);

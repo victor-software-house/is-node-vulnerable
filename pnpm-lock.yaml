@@ -21,6 +21,9 @@ importers:
       '@eslint/js':
         specifier: ^9.39.2
         version: 9.39.2
+      '@tool-belt/type-predicates':
+        specifier: ^1.4.1
+        version: 1.4.1
       '@types/node':
         specifier: ^25.0.8
         version: 25.0.8
@@ -51,9 +54,6 @@ importers:
       prettier:
         specifier: ^3.7.4
         version: 3.7.4
-      ts-toolbelt:
-        specifier: ^9.6.0
-        version: 9.6.0
       tsdown:
         specifier: 0.20.0-beta.3
         version: 0.20.0-beta.3(synckit@0.11.12)(typescript@5.9.3)
@@ -611,6 +611,10 @@ packages:
 
   '@standard-schema/spec@1.1.0':
     resolution: {integrity: sha512-l2aFy5jALhniG5HgqrD6jXLi/rUWrKvqN/qJx6yoJsgKhblVd+iqqU4RCXavm/jPityDo5TCvKMnpjKnOriy0w==}
+
+  '@tool-belt/type-predicates@1.4.1':
+    resolution: {integrity: sha512-hxVezXhUV8bNOggi2ypjK9ZoAQlAdgiOc48b7Kr8qD9tAHjZBHgAt2cSs5HsbhZIjApZONPnSfXW7/HvQZ1UPA==}
+    engines: {node: '>=18.0.0'}
 
   '@tybys/wasm-util@0.10.1':
     resolution: {integrity: sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg==}
@@ -1544,9 +1548,6 @@ packages:
     peerDependencies:
       typescript: '>=4.8.4'
 
-  ts-toolbelt@9.6.0:
-    resolution: {integrity: sha512-nsZd8ZeNUzukXPlJmTBwUAuABDe/9qtVDelJeT/qW0ow3ZS3BsQJtNkan1802aM9Uf68/Y8ljw86Hu0h5IUW3w==}
-
   tsdown@0.20.0-beta.3:
     resolution: {integrity: sha512-XcMb46jOmxrXCiUkw7qhI3f1BUTnU0kWmpBK6CzASDbjxCpB2k2hGpdwIGM4GanGhWuNaoCW4+GvyHoPgUNRaQ==}
     engines: {node: '>=20.19.0'}
@@ -2156,6 +2157,8 @@ snapshots:
     optional: true
 
   '@standard-schema/spec@1.1.0': {}
+
+  '@tool-belt/type-predicates@1.4.1': {}
 
   '@tybys/wasm-util@0.10.1':
     dependencies:
@@ -3107,8 +3110,6 @@ snapshots:
   ts-api-utils@2.4.0(typescript@5.9.3):
     dependencies:
       typescript: 5.9.3
-
-  ts-toolbelt@9.6.0: {}
 
   tsdown@0.20.0-beta.3(synckit@0.11.12)(typescript@5.9.3):
     dependencies:
