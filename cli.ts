@@ -2,34 +2,16 @@
  * CLI interface for Node.js security checker
  */
 
-import fs from 'node:fs';
-import path from 'node:path';
 import process from 'node:process';
-import { fileURLToPath } from 'node:url';
 import { z } from 'zod';
 
 import type { VulnerabilityEntry } from './types.js';
 
+import securityData from './data/security.json' with { type: 'json' };
 import { error, info } from './logger.js';
 import { isNodeEOL } from './schedule.js';
 import { securityDatabaseSchema } from './schemas.js';
 import { checkPlatform, getVulnerabilityList } from './vulnerability.js';
-
-// Find project root by looking for package.json
-function findProjectRoot(startPath: string): string {
-	let currentPath = startPath;
-	while (currentPath !== path.dirname(currentPath)) {
-		if (fs.existsSync(path.join(currentPath, 'package.json'))) {
-			return currentPath;
-		}
-		currentPath = path.dirname(currentPath);
-	}
-	throw new Error('Could not find project root (package.json not found)');
-}
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const PROJECT_ROOT = findProjectRoot(__dirname);
-const SECURITY_FILE = path.join(PROJECT_ROOT, 'data/security.json');
 
 export function runCLI(): void {
 	const nodeVersion = process.version;
@@ -53,8 +35,7 @@ export function runCLI(): void {
 		process.exit(1);
 	}
 
-	const data = fs.readFileSync(SECURITY_FILE, 'utf-8');
-	const securityDb = z.parse(securityDatabaseSchema, JSON.parse(data));
+	const securityDb = z.parse(securityDatabaseSchema, securityData);
 
 	const vulnerabilities = getVulnerabilityList(
 		nodeVersion,

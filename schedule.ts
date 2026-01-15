@@ -2,31 +2,13 @@
  * Node.js release schedule checking
  */
 
-import fs from 'node:fs';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { satisfies } from 'semver';
 import { z } from 'zod';
 
 import type { ReleaseScheduleEntry } from './types.js';
 
+import scheduleData from './data/schedule.json' with { type: 'json' };
 import { releaseScheduleSchema } from './schemas.js';
-
-// Find project root by looking for package.json
-function findProjectRoot(startPath: string): string {
-	let currentPath = startPath;
-	while (currentPath !== path.dirname(currentPath)) {
-		if (fs.existsSync(path.join(currentPath, 'package.json'))) {
-			return currentPath;
-		}
-		currentPath = path.dirname(currentPath);
-	}
-	throw new Error('Could not find project root (package.json not found)');
-}
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const PROJECT_ROOT = findProjectRoot(__dirname);
-const SCHEDULE_FILE = path.join(PROJECT_ROOT, 'data/schedule.json');
 
 /**
  * Check if a Node.js version is end-of-life
@@ -60,8 +42,7 @@ export function isNodeEOL(version: string): boolean {
 }
 
 function getVersionInfo(version: string): null | ReleaseScheduleEntry {
-	const data = fs.readFileSync(SCHEDULE_FILE, 'utf-8');
-	const schedule = z.parse(releaseScheduleSchema, JSON.parse(data));
+	const schedule = z.parse(releaseScheduleSchema, scheduleData);
 
 	const normalized = version.toLowerCase();
 	const directMatch = schedule[normalized];
