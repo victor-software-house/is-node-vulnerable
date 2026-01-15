@@ -61,7 +61,7 @@
 - [ ] T008 [P] [US1] Add Architecture subsection to README.md with flat module structure, import aliases, build system (tsdown), data bundling
 - [ ] T009 [P] [US1] Add Testing subsection to README.md with Vitest setup, test patterns, coverage
 - [ ] T010 [P] [US1] Add GitHub Actions subsection to README.md with daily automation workflow
-- [ ] T011 [P] [US1] Add Configuration Repositories subsection to README.md with links to `.claude/` and `.specify/` GitHub repos
+- [X] ~~T011 [P] [US1] Add Configuration Repositories subsection to README.md~~ **SKIP - SECURITY VIOLATION**: README.md is tracked file. NEVER mention `.claude/`, `.specify/`, Claude, or AI tools in tracked files (global CLAUDE.md directive)
 - [ ] T012 [US1] Verify README.md standalone readability - new developer can set up project using only README
 - [ ] T013 [US1] Verify all commands are copy-pasteable and architecture decisions have rationale
 - [ ] T014 [US1] Run `git add README.md && git commit -m "docs: add Development section to README for comprehensive onboarding"`
