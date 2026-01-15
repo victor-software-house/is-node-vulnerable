@@ -6,7 +6,8 @@ on:
   workflow_dispatch: # Manual trigger
 
 permissions:
-  contents: write # Required to push commits
+  contents: write # Required to push commits and tags
+  id-token: write # Required for npm trusted publishing with OIDC
 
 jobs:
   update:
@@ -34,12 +35,16 @@ jobs:
         with:
           node-version-file: '.nvmrc'
           cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Format data files
         run: pnpm format
+
+      - name: Run tests
+        run: pnpm test
 
       - name: Check for changes
         id: changes
@@ -50,11 +55,26 @@ jobs:
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
-      - name: Commit and push changes
+      - name: Configure git
         if: steps.changes.outputs.changed == 'true'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit data changes
+        if: steps.changes.outputs.changed == 'true'
+        run: |
           git add data/
           git commit -m "chore(data): update security data [$(date -u +%Y-%m-%d)]"
-          git push
+
+      - name: Bump version
+        if: steps.changes.outputs.changed == 'true'
+        run: npm version patch -m "chore: bump version to %s [skip ci]"
+
+      - name: Push commits and tags
+        if: steps.changes.outputs.changed == 'true'
+        run: git push --follow-tags
+
+      - name: Publish to npm
+        if: steps.changes.outputs.changed == 'true'
+        run: npm publish --provenance --access public
