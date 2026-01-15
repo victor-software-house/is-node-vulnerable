@@ -17,7 +17,7 @@ As a developer onboarding to the project, I need comprehensive development docum
 
 **Acceptance Scenarios**:
 
-1. **Given** README.md with only installation and usage sections, **When** developer needs to understand development workflow, **Then** README contains comprehensive Development section with all commands, architecture overview, testing instructions, and configuration repository information
+1. **Given** README.md with only installation and usage sections, **When** developer needs to understand development workflow, **Then** README contains comprehensive Development section with Commands, Architecture, Testing, and GitHub Actions subsections
 2. **Given** development information scattered across CLAUDE.md, **When** developer reads README.md, **Then** all development information is consolidated in README with clear sections for Commands, Architecture, Testing, and GitHub Actions
 3. **Given** README with new Development section, **When** AI assistant references project documentation, **Then** AI can import README content via @ syntax instead of duplicating information
 
@@ -69,7 +69,7 @@ As an AI assistant processing TypeScript files with Zod schemas, I need topic-sp
 
 ### Functional Requirements
 
-- **FR-001**: README.md MUST contain a new Development section that includes Commands, Architecture, Testing, GitHub Actions, and Configuration Repositories subsections
+- **FR-001**: README.md MUST contain a new Development section that includes Commands, Architecture, Testing, and GitHub Actions subsections (Configuration Repositories subsection removed per Principle VI: No AI Tool Mentions in Main Repository)
 - **FR-002**: README.md Development section MUST include all development commands currently in CLAUDE.md (build, test, lint, format, typecheck)
 - **FR-003**: README.md MUST include architecture overview with flat module structure, import aliases, build system, and data bundling information
 - **FR-004**: CLAUDE.md MUST be refactored to ~100 lines using @ import syntax to reference README.md and package.json
@@ -95,7 +95,7 @@ As an AI assistant processing TypeScript files with Zod schemas, I need topic-sp
 
 ### Measurable Outcomes
 
-- **SC-001**: CLAUDE.md file size reduced from 649 lines to approximately 100 lines (85% reduction)
+- **SC-001**: CLAUDE.md file size reduced from 649 lines to 90-110 lines (approximately 100 lines, 85% reduction)
 - **SC-002**: Default context loaded by Claude Code reduced by 50-70% through modular rule structure with on-demand loading
 - **SC-003**: README.md serves as complete standalone documentation - new developers can set up and understand project using only README
 - **SC-004**: Zero duplication between README.md and CLAUDE.md - all shared content referenced via @ imports

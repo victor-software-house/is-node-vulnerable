@@ -57,7 +57,14 @@ Refactor CLAUDE.md from a monolithic 649-line file to a modular structure using 
 - Manual testing of path-specific rules with relevant file types
 - README.md serves as standalone documentation (human validation)
 
-### Principle VI: Incremental Commits
+### Principle VI: No AI Tool Mentions in Main Repository
+**PASS** - Documentation refactoring complies with security/NDA requirements:
+- README.md Development section added to MAIN repository without AI tool mentions
+- Configuration Repositories subsection excluded from README.md (violates Principle VI)
+- All AI tool mentions remain in `.claude/` and `.specify/` subrepos only
+- Task T011 properly skipped with security violation documentation
+
+### Principle VII: Incremental Commits
 **PASS** - Implementation plan includes incremental commit strategy:
 - Task 1: Enhance README.md (commit)
 - Task 2: Create `.claude/rules/` structure (commit)

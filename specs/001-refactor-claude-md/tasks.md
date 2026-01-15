@@ -49,8 +49,8 @@
 **Independent Test**: New developer can read only README.md and successfully set up development environment, understand architecture, and run all development commands without external guidance
 
 **Acceptance Scenarios**:
-1. README contains Development section with Commands, Architecture, Testing, GitHub Actions, Configuration Repositories subsections
-2. All development information from CLAUDE.md consolidated in README
+1. README contains Development section with Commands, Architecture, Testing, and GitHub Actions subsections (Configuration Repositories excluded per Principle VI)
+2. All development information from CLAUDE.md consolidated in README without AI tool mentions
 3. AI assistant can import README content via @ syntax instead of duplicating information
 
 ### Implementation for User Story 1
@@ -230,7 +230,7 @@
 ### Within Each User Story
 
 **User Story 1** (README Enhancement):
-- Tasks T007-T011 (subsections) can run in parallel [P]
+- Tasks T007-T010 (subsections) can run in parallel [P]; T011 skipped (security violation)
 - Task T012 (verification) must run after all subsections complete
 - Task T014 (commit) must run after verification
 
@@ -249,7 +249,7 @@
 
 ### Parallel Opportunities
 
-- **Within User Story 1**: Tasks T007-T011 (5 subsections) can run in parallel [P]
+- **Within User Story 1**: Tasks T007-T010 (4 subsections) can run in parallel [P]; T011 skipped (security violation)
 - **Within User Story 2**: Tasks T020-T022 (3 AI-specific sections) can run in parallel [P]
 - **Within User Story 3**: Tasks T031-T033 (3 empty files) can run in parallel [P]
 
@@ -265,7 +265,7 @@ Task T007: "Add Commands subsection to README.md with all pnpm scripts"
 Task T008: "Add Architecture subsection to README.md with flat structure"
 Task T009: "Add Testing subsection to README.md with Vitest setup"
 Task T010: "Add GitHub Actions subsection to README.md with automation"
-Task T011: "Add Configuration Repositories subsection to README.md"
+# Note: T011 skipped (security violation - no AI tool mentions in MAIN repo)
 
 # After all complete:
 Task T012: "Verify README.md standalone readability"
