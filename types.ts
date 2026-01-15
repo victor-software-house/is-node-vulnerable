@@ -9,7 +9,7 @@ import type {
 	releaseScheduleSchema,
 	securityDatabaseSchema,
 	vulnerabilityEntrySchema,
-} from './schemas.js';
+} from './schemas';
 
 export type ReleaseSchedule = z4.output<typeof releaseScheduleSchema>;
 export type ReleaseScheduleEntry = z4.output<typeof releaseScheduleEntrySchema>;

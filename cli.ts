@@ -5,13 +5,13 @@
 import process from 'node:process';
 import { z } from 'zod';
 
-import type { VulnerabilityEntry } from './types.js';
+import type { VulnerabilityEntry } from './types';
 
 import securityData from './data/security.json' with { type: 'json' };
-import { error, info } from './logger.js';
-import { isNodeEOL } from './schedule.js';
-import { securityDatabaseSchema } from './schemas.js';
-import { checkPlatform, getVulnerabilityList } from './vulnerability.js';
+import { error, info } from './logger';
+import { isNodeEOL } from './schedule';
+import { securityDatabaseSchema } from './schemas';
+import { checkPlatform, getVulnerabilityList } from './vulnerability';
 
 export function runCLI(): void {
 	const nodeVersion = process.version;

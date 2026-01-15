@@ -19,24 +19,25 @@
 
 import process from 'node:process';
 
-import { runCLI } from './cli.js';
-import { error, warn } from './logger.js';
+import { runCLI } from './cli';
+import { error, warn } from './logger';
 
 // Re-export public API
-export { isNodeEOL } from './schedule.js';
+export { isNodeEOL } from './schedule';
 export type {
 	Platform,
 	ReleaseSchedule,
 	ReleaseScheduleEntry,
 	SecurityDatabase,
 	VulnerabilityEntry,
-} from './types.js';
-export { isNodeVulnerable } from './vulnerability.js';
+} from './types';
+export { isNodeVulnerable } from './vulnerability';
 
 // CLI execution when run directly
 if (
 	import.meta.url.endsWith('/index.ts') ||
-	import.meta.url.endsWith('/index.js')
+	import.meta.url.endsWith('/index.mjs') ||
+	import.meta.url.endsWith('/index')
 ) {
 	if (process.env.SKIP_NODE_SECURITY_CHECK === '1') {
 		warn('[SKIP] Security check skipped (SKIP_NODE_SECURITY_CHECK=1)\n');
