@@ -91,14 +91,17 @@
 - [ ] T017 [US2] Remove duplicated architecture content from CLAUDE.md (basic flat module structure ONLY, now in README - keep import alias patterns for US3)
 - [ ] T018 [US2] Remove duplicated testing content from CLAUDE.md (basic Vitest info ONLY, now in README - keep Modern Vitest Patterns section for US3)
 - [ ] T019 [US2] Remove duplicated GitHub Actions content from CLAUDE.md (workflow description ONLY, now in README)
+
+**Note on US2 Content Removal**: "Basic duplicates" are simple descriptions duplicated in README (e.g., "we use Vitest", "pnpm commands"). "Patterns" are AI-specific guidance with code examples (e.g., "Modern Vitest Patterns", "Zod v4 Best Practices"). See archive/issues-analysis.md for detailed breakdown.
+
 - [ ] T020 [US2] Retain AI-specific patterns in CLAUDE.md: import alias enforcement patterns, Zod patterns, TypeScript patterns (will migrate to rules in US3)
 - [ ] T021 [US2] Retain AI-specific patterns in CLAUDE.md: CLI detection pattern (import.meta.url explanation)
 - [ ] T022 [US2] Retain AI-specific patterns in CLAUDE.md: Future enhancements, testing patterns (will migrate to rules in US3)
 - [ ] T023 [US2] Verify CLAUDE.md file size reduced to ~585 lines with `wc -l CLAUDE.md` (patterns retained, duplicates removed - final reduction in US3)
 - [ ] T024 [US2] Verify @ imports present with `grep "@README.md" CLAUDE.md`
 - [ ] T025 [US2] Verify AI-specific content retained with `grep "import alias" CLAUDE.md`
-- [ ] T026 [US2] Run Claude Code `/memory` command to verify @ imports resolve correctly
-- [ ] T027 [US2] Verify README.md content appears in memory context without duplication
+- [ ] T026 [US2] Run Claude Code `/memory` command to verify @ imports resolve correctly (Expected: README.md content visible, @ imports resolved without "file not found" errors, no circular import warnings)
+- [ ] T027 [US2] Verify README.md content appears in memory context without duplication (Expected: Project overview, development commands, architecture visible; no duplicate sections)
 - [ ] T028 [US2] Run `git add CLAUDE.md && git commit -m "refactor: use @ imports to reference README, remove duplicates (~585 lines, patterns retained for US3)"`
 
 **Checkpoint**: CLAUDE.md refactored with @ imports - loads README content without duplication. Ready for User Story 3.
@@ -158,6 +161,11 @@
 - [ ] T052 [US3] Verify frontmatter with `head -5 .claude/rules/testing-patterns.md`
 - [ ] T053 [US3] Verify expectTypeOf patterns with `grep "expectTypeOf" .claude/rules/testing-patterns.md`
 - [ ] T054 [US3] Verify file size approximately 105 lines (100 + frontmatter) with `wc -l .claude/rules/testing-patterns.md`
+- [ ] T054a [US3] Verify content preservation by comparing original CLAUDE.md sections with extracted rule files:
+  - Compare Zod section in CLAUDE.md.backup with .claude/rules/zod-patterns.md (all code examples, tables, deprecated patterns present)
+  - Compare TypeScript section with .claude/rules/typescript-patterns.md (type predicates, functional libraries comparison)
+  - Compare Testing section with .claude/rules/testing-patterns.md (expectTypeOf, concurrent tests, advantages)
+  - Verify no content lost during extraction (line count variance acceptable if formatting improved)
 - [ ] T055 [US3] Run `git add rules/ && git commit -m "feat: extract Zod, TypeScript, and testing patterns to modular rule files"`
 
 #### Update CLAUDE.md with Rule Imports
@@ -184,6 +192,12 @@
 - [ ] T072 [US3] Verify no circular import errors in `/memory` output
 - [ ] T073 [US3] Verify no missing file errors in `/memory` output
 - [ ] T074 [US3] If validation issues found, fix @ import paths and run `git commit -m "fix: address @ import resolution issues found in validation"`
+- [ ] T074a [US3] Measure context load reduction to verify SC-002:
+  - Documentation context: Open non-code file (README.md), run `/memory`, count lines loaded (expect ~100 lines: CLAUDE.md only)
+  - TypeScript context: Open TypeScript file (vulnerability.ts), run `/memory`, count lines (expect ~500 lines: CLAUDE.md + zod + typescript rules)
+  - Test context: Open test file (vulnerability.test.ts), run `/memory`, count lines (expect ~600 lines: CLAUDE.md + zod + typescript + testing rules)
+  - Document measurements in validation notes: "Documentation: 100 lines (85% reduction), TypeScript: 500 lines (23% reduction), Test: 600 lines (8% reduction)"
+  - Verify 50-70% average reduction across contexts
 
 **Checkpoint**: Modular rules structure complete - patterns loaded on-demand based on file context. All user stories implemented.
 

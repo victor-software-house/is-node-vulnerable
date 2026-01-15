@@ -1,18 +1,23 @@
-# Archive Directory
+# Specification Analysis Archive
 
-This directory contains historical documents that were used as input to create the specification but should NOT be used to guide planning or implementation.
+This directory contains historical analysis files from the planning and correction phase.
 
-## Contents
+## Files
 
-- `original-analysis-input.md` - Pre-specification analysis with implementation ideas (archived for reference only)
+- **issues.md**: Original issue tracking document identifying 5 critical specification problems
+- **issues-analysis.md**: Comprehensive analysis with official Claude Code documentation validation
+- **corrections-summary.md**: Quick reference guide for all corrections applied
+- **remediation-plan.md**: Remediation recommendations from speckit.analyze final review
 
-## Purpose
+## Context
 
-Documents here are preserved for:
-- Historical reference
-- Understanding the original thinking
-- Post-implementation review
+These files document the specification refinement process:
+1. Initial implementation attempt revealed issues (issues.md)
+2. Paused implementation to research official documentation
+3. Performed comprehensive analysis (issues-analysis.md)
+4. Applied corrections to all specification files (corrections-summary.md)
+5. Final validation with speckit.analyze (remediation-plan.md)
 
-## Important
+All corrections have been applied to core specification files. This archive preserves the analysis trail for reference.
 
-**Do not use archived documents for planning.** The planning phase should work exclusively from `../spec.md` to ensure proper requirements-driven design without implementation bias.
+**Status**: Historical - not required for implementation execution

@@ -72,7 +72,7 @@ As an AI assistant processing TypeScript files with Zod schemas, I need topic-sp
 - **FR-001**: README.md MUST contain a new Development section that includes Commands, Architecture, Testing, and GitHub Actions subsections (Configuration Repositories subsection removed per Principle VI: No AI Tool Mentions in Main Repository)
 - **FR-002**: README.md Development section MUST include all development commands currently in CLAUDE.md (build, test, lint, format, typecheck)
 - **FR-003**: README.md MUST include architecture overview with flat module structure, import aliases, build system, and data bundling information
-- **FR-004**: CLAUDE.md MUST be refactored to ~100 lines using @ import syntax to reference README.md and package.json
+- **FR-004**: CLAUDE.md MUST be refactored in two phases: from 649 lines to ~585 lines (US2: duplicates removed) using @ import syntax, then to ~100 lines (US3: patterns migrated to rules)
 - **FR-005**: CLAUDE.md MUST retain AI-specific guidelines (import aliases, build system, CLI detection, future enhancements) that are not user-facing documentation
 - **FR-006**: System MUST create `.claude/rules/` directory structure with three modular rule files: `zod-patterns.md`, `typescript-patterns.md`, and `testing-patterns.md`
 - **FR-007**: Rule file `zod-patterns.md` MUST contain all Zod v4 best practices content (~250 lines) extracted from current CLAUDE.md

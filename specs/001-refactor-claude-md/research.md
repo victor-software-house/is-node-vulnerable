@@ -216,6 +216,18 @@
 **Source**: https://code.claude.com/docs/en/memory.md (Retrieved: 2026-01-15)
 **Purpose**: Validate specification against authoritative Claude Code documentation
 
+#### @ Import Section References
+
+**Question**: Can @ imports reference specific sections (e.g., `@README.md#development`) or only full files?
+
+**Official Documentation**: Claude Code @ imports reference entire files, not specific sections. Section-level imports not supported in current version. Use file-level imports and rely on Claude's ability to extract relevant sections.
+
+**Example**:
+- Supported: `See @README.md for project overview` (imports entire README.md)
+- Not supported: `@README.md#development` (section anchor syntax)
+
+**Implication**: CLAUDE.md should reference entire files via @ imports. Claude Code will load full file content and extract relevant sections based on context.
+
 ### Key Findings from Official Docs
 
 #### 1. @ Import Syntax Requirements
