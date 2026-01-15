@@ -39,7 +39,10 @@ SKIP_NODE_SECURITY_CHECK=1 node index.js
 ### As Module
 
 ```typescript
-import { isNodeVulnerable, isNodeEOL } from '@victor-software-house/is-node-vulnerable';
+import {
+	isNodeVulnerable,
+	isNodeEOL,
+} from '@victor-software-house/is-node-vulnerable';
 
 // Check if a specific version is vulnerable
 const vulnerable = isNodeVulnerable('v20.10.0', 'darwin');
