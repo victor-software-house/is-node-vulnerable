@@ -1,12 +1,12 @@
 {
-	"name": "@victor-software-studio/node-security-checker",
+	"name": "is-node-vulnerable",
 	"version": "1.0.0",
 	"description": "TypeScript-based Node.js security vulnerability checker with Zod validation and bundled security data",
 	"type": "module",
 	"main": "./dist/index.mjs",
 	"types": "./dist/index.d.mts",
 	"bin": {
-		"node-security-checker": "./dist/index.mjs"
+		"is-node-vulnerable": "./dist/index.mjs"
 	},
 	"exports": {
 		".": {
@@ -44,12 +44,12 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/victor-software-studio/node-security-checker.git"
+		"url": "https://github.com/victor-software-house/is-node-vulnerable.git"
 	},
 	"bugs": {
-		"url": "https://github.com/victor-software-studio/node-security-checker/issues"
+		"url": "https://github.com/victor-software-house/is-node-vulnerable/issues"
 	},
-	"homepage": "https://github.com/victor-software-studio/node-security-checker#readme",
+	"homepage": "https://github.com/victor-software-house/is-node-vulnerable#readme",
 	"dependencies": {
 		"semver": "^7.7.3",
 		"zod": "^4.3.5"

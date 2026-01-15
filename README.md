@@ -16,9 +16,9 @@ Based on [`is-my-node-vulnerable`](https://github.com/nodejs/is-my-node-vulnerab
 ## Installation
 
 ```bash
-npm install @victor-software-studio/node-security-checker
+npm install is-node-vulnerable
 # or
-pnpm add @victor-software-studio/node-security-checker
+pnpm add is-node-vulnerable
 ```
 
 ## Usage
@@ -27,10 +27,10 @@ pnpm add @victor-software-studio/node-security-checker
 
 ```bash
 # Check current Node.js version
-npx node-security-checker
+npx is-node-vulnerable
 
 # With debug output
-DEBUG=1 npx node-security-checker
+DEBUG=1 npx is-node-vulnerable
 
 # Skip check (emergency)
 SKIP_NODE_SECURITY_CHECK=1 node index.js
@@ -42,7 +42,7 @@ SKIP_NODE_SECURITY_CHECK=1 node index.js
 import {
 	isNodeVulnerable,
 	isNodeEOL,
-} from '@victor-software-studio/node-security-checker';
+} from 'is-node-vulnerable';
 
 // Check if a specific version is vulnerable
 const vulnerable = isNodeVulnerable('v20.10.0', 'darwin');
@@ -58,8 +58,8 @@ console.log(isEOL); // true
 ```json
 {
 	"scripts": {
-		"prebuild": "node-security-checker",
-		"check:security": "DEBUG=1 node-security-checker"
+		"prebuild": "is-node-vulnerable",
+		"check:security": "DEBUG=1 is-node-vulnerable"
 	}
 }
 ```
