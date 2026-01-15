@@ -51,6 +51,9 @@ importers:
       prettier:
         specifier: ^3.7.4
         version: 3.7.4
+      ts-toolbelt:
+        specifier: ^9.6.0
+        version: 9.6.0
       tsdown:
         specifier: 0.20.0-beta.3
         version: 0.20.0-beta.3(synckit@0.11.12)(typescript@5.9.3)
@@ -1540,6 +1543,9 @@ packages:
     engines: {node: '>=18.12'}
     peerDependencies:
       typescript: '>=4.8.4'
+
+  ts-toolbelt@9.6.0:
+    resolution: {integrity: sha512-nsZd8ZeNUzukXPlJmTBwUAuABDe/9qtVDelJeT/qW0ow3ZS3BsQJtNkan1802aM9Uf68/Y8ljw86Hu0h5IUW3w==}
 
   tsdown@0.20.0-beta.3:
     resolution: {integrity: sha512-XcMb46jOmxrXCiUkw7qhI3f1BUTnU0kWmpBK6CzASDbjxCpB2k2hGpdwIGM4GanGhWuNaoCW4+GvyHoPgUNRaQ==}
@@ -3101,6 +3107,8 @@ snapshots:
   ts-api-utils@2.4.0(typescript@5.9.3):
     dependencies:
       typescript: 5.9.3
+
+  ts-toolbelt@9.6.0: {}
 
   tsdown@0.20.0-beta.3(synckit@0.11.12)(typescript@5.9.3):
     dependencies:
