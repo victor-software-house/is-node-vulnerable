@@ -93,11 +93,10 @@ specs/[###-feature]/
 ```text
 # Main repository documentation
 README.md                    # Enhanced with Development section
-CLAUDE.md                    # Refactored to ~100 lines with @ imports
 
 # Claude Code configuration (independent git repo)
 .claude/
-├── CLAUDE.md               # Symlink to ../CLAUDE.md
+├── CLAUDE.md               # Main AI memory file (~100 lines after refactoring)
 ├── settings.json           # Existing configuration
 └── rules/                  # New modular pattern files
     ├── zod-patterns.md     # Zod v4 patterns (~250 lines)

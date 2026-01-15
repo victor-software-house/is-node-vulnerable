@@ -47,18 +47,18 @@ This refactoring treats documentation as structured data with relationships, val
 **Purpose**: AI-specific memory file that provides Claude Code with guidelines and references to avoid duplication.
 
 **Fields**:
-- Project overview (replaced with @ import to README.md)
-- Development commands (replaced with @ import to README.md)
-- Architecture details (replaced with @ import to README.md)
-- **AI-specific guidelines** (retained):
+- Project overview (replaced with descriptive @ import: `See @README.md for complete project overview, installation instructions, and API documentation.`)
+- Development commands (replaced with descriptive @ import: `Development workflow is documented in @README.md Development section.`)
+- Architecture basics (duplicated in README - removed in US2)
+- **AI-specific guidelines** (retained in US2, some migrated in US3):
   - Import alias enforcement policy
   - CLI detection pattern explanation
   - Future enhancements (validation script wrapper)
-  - Build system specifics for AI context
-- Pattern references (replaced with @ imports to `.claude/rules/*.md`)
+  - Zod, TypeScript, testing patterns (moved to rules in US3)
+- Pattern references (replaced with descriptive @ imports to `.claude/rules/*.md` in US3)
 
 **Validation Rules**:
-- MUST be reduced to ~100 lines (from 649 lines)
+- MUST be reduced in two phases: 649 → ~585 lines (US2), then ~585 → ~100 lines (US3)
 - MUST use @ import syntax for all references
 - MUST NOT duplicate content from README.md
 - MUST NOT duplicate content from rule files
@@ -73,16 +73,37 @@ This refactoring treats documentation as structured data with relationships, val
 - Referenced by: None (top-level memory file)
 
 **State Transitions**:
-1. Initial: Monolithic 649-line file with all content
-2. Transitional: Content migrated to README and rule files
-3. Refactored: ~100 lines with @ imports and AI-specific guidelines
-4. Validated: Verified via `/memory` command
+1. Initial: Monolithic 649-line file with all content and duplicates
+2. US2 Refactored: ~585 lines with @ imports to README, duplicates removed, patterns retained
+3. US3 Refactored: ~100 lines with @ imports to README and rules, patterns migrated
+4. Validated: Verified via `/memory` command with all @ imports resolving correctly
 
 ---
 
 ### Entity: Rule Files (`.claude/rules/*.md`)
 
 **Purpose**: Modular, topic-specific technical patterns loaded on-demand based on file context.
+
+**Path-Specific Loading**:
+Rule files can include YAML frontmatter with a `paths` field to control when they are loaded. Rules without frontmatter are loaded unconditionally.
+
+**Frontmatter Format**:
+```yaml
+---
+paths:
+  - "**/*.test.ts"     # Glob pattern for test files
+  - "**/*.spec.ts"     # Multiple patterns supported
+  - "src/**/*.{ts,tsx}" # Brace expansion supported
+---
+```
+
+**Glob Pattern Support** (from official docs):
+- `**/*.ts` - All TypeScript files in any directory
+- `src/**/*` - All files under src/ directory
+- `*.md` - Markdown files in project root
+- `{src,lib}/**/*.ts` - Brace expansion for multiple directories
+
+**Load Priority**: All rules in `.claude/rules/` are loaded at same priority as `.claude/CLAUDE.md`, with user-level rules (`~/.claude/rules/`) loaded before project rules.
 
 #### Sub-Entity: zod-patterns.md
 
@@ -222,26 +243,26 @@ CLAUDE.md (~100 lines with AI-specific guidelines)
 ### States
 
 1. **Initial**: Monolithic CLAUDE.md (649 lines), README without Development section
-2. **README Enhanced**: README has Development section, CLAUDE.md unchanged
-3. **Rules Created**: `.claude/rules/` directory exists with 3 empty files
-4. **Patterns Migrated**: Rule files contain patterns, CLAUDE.md still has duplicates
-5. **CLAUDE Refactored**: CLAUDE.md uses @ imports, ~100 lines
-6. **Validated**: `/memory` command confirms correct loading
+2. **README Enhanced** (US1 complete): README has Development section, CLAUDE.md unchanged (649 lines)
+3. **Duplicates Removed** (US2 complete): CLAUDE.md uses @ imports to README, duplicates removed (~585 lines, patterns retained)
+4. **Rules Created** (US3 in progress): `.claude/rules/` directory exists with pattern files
+5. **Patterns Migrated** (US3 complete): CLAUDE.md uses @ imports to rules, ~100 lines
+6. **Validated**: `/memory` command confirms correct loading, path-specific rules work
 
 ### Transitions
 
 ```
-Initial
-  → (Add Development section to README)
-  → README Enhanced
-  → (Create .claude/rules/ directory structure)
-  → Rules Created
-  → (Extract patterns from CLAUDE.md to rule files)
-  → Patterns Migrated
-  → (Replace duplicated content with @ imports in CLAUDE.md)
-  → CLAUDE Refactored
-  → (Run /memory command, test path-specific rules)
-  → Validated
+Initial (649 lines)
+  → (US1: Add Development section to README)
+  → README Enhanced (649 lines)
+  → (US2: Remove duplicates, add @ imports to README)
+  → Duplicates Removed (~585 lines)
+  → (US3: Create .claude/rules/ and extract patterns)
+  → Rules Created (~585 lines)
+  → (US3: Replace patterns with @ imports to rules)
+  → Patterns Migrated (~100 lines)
+  → (Validate with /memory command)
+  → Validated (~100 lines)
 ```
 
 ### Rollback Points
@@ -249,10 +270,10 @@ Initial
 Each state is committable to git, allowing rollback:
 
 - **README Enhanced**: Can rollback if Development section inadequate
+- **Duplicates Removed**: Can rollback if @ imports to README don't resolve
 - **Rules Created**: Can rollback if directory structure incorrect
-- **Patterns Migrated**: Can rollback if pattern extraction incomplete
-- **CLAUDE Refactored**: Can rollback if @ imports don't resolve
-- **Validated**: Can rollback if `/memory` command shows errors
+- **Patterns Migrated**: Can rollback if pattern extraction incomplete or @ imports to rules don't resolve
+- **Validated**: Can rollback if `/memory` command shows errors or path-specific rules fail
 
 ---
 
@@ -260,14 +281,25 @@ Each state is committable to git, allowing rollback:
 
 ### Size Metrics
 
-| File | Before (lines) | After (lines) | Change |
-|------|---------------|--------------|--------|
-| CLAUDE.md | 649 | ~100 | -549 (85% reduction) |
-| README.md | ~150 | ~250 | +100 (Development section) |
-| .claude/rules/zod-patterns.md | 0 | ~250 | +250 (new file) |
-| .claude/rules/typescript-patterns.md | 0 | ~150 | +150 (new file) |
-| .claude/rules/testing-patterns.md | 0 | ~100 | +100 (new file) |
-| **Total** | **799** | **850** | **+51 (overhead for structure)** |
+**CLAUDE.md Phased Reduction**:
+
+| Phase | Lines | Description |
+|-------|-------|-------------|
+| Initial | 649 | Monolithic with duplicates |
+| After US2 | ~585 | Duplicates removed, @ imports added, patterns retained |
+| After US3 | ~100 | Patterns migrated to rules, final structure |
+| **Total Reduction** | **-549 (85%)** | **Phased over US2 and US3** |
+
+**All Files**:
+
+| File | Before (lines) | After US1 | After US2 | After US3 | Final Change |
+|------|---------------|-----------|-----------|-----------|--------------|
+| CLAUDE.md | 649 | 649 | ~585 | ~100 | -549 (85% reduction) |
+| README.md | ~150 | ~250 | ~250 | ~250 | +100 (Development section) |
+| .claude/rules/zod-patterns.md | 0 | 0 | 0 | ~250 | +250 (new file) |
+| .claude/rules/typescript-patterns.md | 0 | 0 | 0 | ~150 | +150 (new file) |
+| .claude/rules/testing-patterns.md | 0 | 0 | 0 | ~100 | +100 (new file) |
+| **Total** | **799** | **899** | **835** | **850** | **+51 (overhead for structure)** |
 
 **Context Load** (without path-specific loading):
 - Before: 649 lines (CLAUDE.md only)

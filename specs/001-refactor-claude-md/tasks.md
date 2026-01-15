@@ -86,20 +86,20 @@
 
 ### Implementation for User Story 2
 
-- [ ] T015 [US2] Locate "Project Overview" section in CLAUDE.md and replace with `@README.md` import
-- [ ] T016 [US2] Locate "Development Commands" section in CLAUDE.md and replace with reference to README.md Development section
-- [ ] T017 [US2] Remove duplicated architecture content from CLAUDE.md (now in README)
-- [ ] T018 [US2] Remove duplicated testing content from CLAUDE.md (now in README)
-- [ ] T019 [US2] Remove duplicated GitHub Actions content from CLAUDE.md (now in README)
-- [ ] T020 [US2] Retain AI-specific guidelines in CLAUDE.md: import alias enforcement (ESLint configuration)
-- [ ] T021 [US2] Retain AI-specific guidelines in CLAUDE.md: CLI detection pattern (import.meta.url explanation)
-- [ ] T022 [US2] Retain AI-specific guidelines in CLAUDE.md: Future enhancements (validation script wrapper)
-- [ ] T023 [US2] Verify CLAUDE.md file size reduced to ~100 lines with `wc -l CLAUDE.md`
+- [ ] T015 [US2] Locate "Project Overview" section in CLAUDE.md and replace with descriptive @ import: `See @README.md for complete project overview, installation instructions, and API documentation.`
+- [ ] T016 [US2] Locate "Development Commands" section in CLAUDE.md and replace with descriptive @ import: `Development workflow is documented in @README.md Development section. Key commands include build, test, lint, and format.`
+- [ ] T017 [US2] Remove duplicated architecture content from CLAUDE.md (basic flat module structure ONLY, now in README - keep import alias patterns for US3)
+- [ ] T018 [US2] Remove duplicated testing content from CLAUDE.md (basic Vitest info ONLY, now in README - keep Modern Vitest Patterns section for US3)
+- [ ] T019 [US2] Remove duplicated GitHub Actions content from CLAUDE.md (workflow description ONLY, now in README)
+- [ ] T020 [US2] Retain AI-specific patterns in CLAUDE.md: import alias enforcement patterns, Zod patterns, TypeScript patterns (will migrate to rules in US3)
+- [ ] T021 [US2] Retain AI-specific patterns in CLAUDE.md: CLI detection pattern (import.meta.url explanation)
+- [ ] T022 [US2] Retain AI-specific patterns in CLAUDE.md: Future enhancements, testing patterns (will migrate to rules in US3)
+- [ ] T023 [US2] Verify CLAUDE.md file size reduced to ~585 lines with `wc -l CLAUDE.md` (patterns retained, duplicates removed - final reduction in US3)
 - [ ] T024 [US2] Verify @ imports present with `grep "@README.md" CLAUDE.md`
 - [ ] T025 [US2] Verify AI-specific content retained with `grep "import alias" CLAUDE.md`
 - [ ] T026 [US2] Run Claude Code `/memory` command to verify @ imports resolve correctly
 - [ ] T027 [US2] Verify README.md content appears in memory context without duplication
-- [ ] T028 [US2] Run `git add CLAUDE.md && git commit -m "refactor: use @ imports to reference README, reduce to ~100 lines"`
+- [ ] T028 [US2] Run `git add CLAUDE.md && git commit -m "refactor: use @ imports to reference README, remove duplicates (~585 lines, patterns retained for US3)"`
 
 **Checkpoint**: CLAUDE.md refactored with @ imports - loads README content without duplication. Ready for User Story 3.
 
@@ -163,9 +163,9 @@
 #### Update CLAUDE.md with Rule Imports
 
 - [ ] T056 [US3] Open CLAUDE.md and locate Zod patterns section
-- [ ] T057 [US3] Replace Zod patterns section with "## Zod Patterns\n\n@.claude/rules/zod-patterns.md"
-- [ ] T058 [US3] Locate TypeScript patterns section and replace with "## TypeScript Patterns\n\n@.claude/rules/typescript-patterns.md"
-- [ ] T059 [US3] Locate testing patterns section and replace with "## Testing Patterns\n\n@.claude/rules/testing-patterns.md"
+- [ ] T057 [US3] Replace Zod patterns section with "## Zod Patterns\n\nZod v4 best practices and validation patterns: @.claude/rules/zod-patterns.md"
+- [ ] T058 [US3] Locate TypeScript patterns section and replace with "## TypeScript Patterns\n\nType safety patterns and functional utilities: @.claude/rules/typescript-patterns.md"
+- [ ] T059 [US3] Locate testing patterns section and replace with "## Testing Patterns\n\nModern Vitest testing patterns with expectTypeOf: @.claude/rules/testing-patterns.md"
 - [ ] T060 [US3] Verify rule imports present with `grep "@.claude/rules/" CLAUDE.md`
 - [ ] T061 [US3] Verify CLAUDE.md size still ~100 lines with `wc -l CLAUDE.md`
 - [ ] T062 [US3] Run `git add ../CLAUDE.md && git commit -m "refactor: replace pattern sections with @ imports to rule files"`

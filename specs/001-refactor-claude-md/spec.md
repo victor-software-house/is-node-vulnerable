@@ -29,11 +29,11 @@ As an AI assistant working with the codebase, I need CLAUDE.md to use @ imports 
 
 **Why this priority**: This delivers the core refactoring benefit - eliminating 649 lines of duplication and establishing the @ import pattern. Must come after P1 (README enhancement) since it references that content.
 
-**Independent Test**: Can be tested by loading CLAUDE.md in Claude Code and verifying that @ imports correctly pull content from README.md and package.json, resulting in significantly smaller CLAUDE.md file (~100 lines vs 649 lines).
+**Independent Test**: Can be tested by loading CLAUDE.md in Claude Code and verifying that @ imports correctly pull content from README.md and package.json, resulting in smaller CLAUDE.md file (~585 lines vs 649 lines, with patterns retained for migration in US3).
 
 **Acceptance Scenarios**:
 
-1. **Given** monolithic 649-line CLAUDE.md, **When** refactored to use @ imports, **Then** CLAUDE.md is reduced to ~100 lines with @ imports for README.md and package.json
+1. **Given** monolithic 649-line CLAUDE.md, **When** refactored to use @ imports and remove duplicates, **Then** CLAUDE.md is reduced to ~585 lines with @ imports for README.md and package.json (AI-specific patterns retained for US3)
 2. **Given** CLAUDE.md with @ imports, **When** loaded by Claude Code, **Then** all referenced content is automatically included without duplication
 3. **Given** refactored CLAUDE.md, **When** project information changes in README, **Then** CLAUDE.md automatically reflects updates without manual synchronization
 4. **Given** CLAUDE.md with AI-specific guidelines only, **When** loaded, **Then** development guidelines (import aliases, build system, CLI detection) remain in CLAUDE.md while project overview is imported
@@ -95,7 +95,7 @@ As an AI assistant processing TypeScript files with Zod schemas, I need topic-sp
 
 ### Measurable Outcomes
 
-- **SC-001**: CLAUDE.md file size reduced from 649 lines to 90-110 lines (approximately 100 lines, 85% reduction)
+- **SC-001**: CLAUDE.md file size reduced in two phases: from 649 lines to ~585 lines after US2 (duplicates removed), then to 90-110 lines after US3 (patterns migrated to rules, 85% total reduction)
 - **SC-002**: Default context loaded by Claude Code reduced by 50-70% through modular rule structure with on-demand loading
 - **SC-003**: README.md serves as complete standalone documentation - new developers can set up and understand project using only README
 - **SC-004**: Zero duplication between README.md and CLAUDE.md - all shared content referenced via @ imports

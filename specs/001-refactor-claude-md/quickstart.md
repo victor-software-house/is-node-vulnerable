@@ -241,7 +241,7 @@ git commit -m "feat: extract Zod, TypeScript, and testing patterns to modular ru
 
 **Duration**: 30-45 minutes
 
-**Objective**: Replace migrated content in CLAUDE.md with @ import references, reducing file to ~100 lines.
+**Objective**: Replace migrated content in CLAUDE.md with @ import references, reducing file from 649 lines to ~585 lines (US2: duplicates removed) then to ~100 lines (US3: patterns migrated to rules).
 
 **Actions**:
 
@@ -250,47 +250,54 @@ git commit -m "feat: extract Zod, TypeScript, and testing patterns to modular ru
    ```markdown
    ## Project Overview
 
-   @README.md
+   See @README.md for complete project overview, installation instructions, and API documentation.
    ```
 
 3. Locate "Development Commands" section and replace with:
    ```markdown
    ## Development
 
-   See [Development section in README.md](README.md#development) for comprehensive guide.
+   Development workflow is documented in @README.md Development section. Key commands include build, test, lint, and format.
    ```
 
-4. Locate Zod patterns section and replace with:
+4. Remove duplicated architecture and testing basics (now in README). Keep AI-specific patterns for now.
+
+5. After creating rules in Step 3, locate Zod patterns section and replace with:
    ```markdown
    ## Zod Patterns
 
-   @.claude/rules/zod-patterns.md
+   Zod v4 best practices and validation patterns: @.claude/rules/zod-patterns.md
    ```
 
-5. Locate TypeScript patterns section and replace with:
+6. Locate TypeScript patterns section and replace with:
    ```markdown
    ## TypeScript Patterns
 
-   @.claude/rules/typescript-patterns.md
+   Type safety patterns and functional utilities: @.claude/rules/typescript-patterns.md
    ```
 
-6. Locate testing patterns section and replace with:
+7. Locate testing patterns section and replace with:
    ```markdown
    ## Testing Patterns
 
-   @.claude/rules/testing-patterns.md
+   Modern Vitest testing patterns with expectTypeOf: @.claude/rules/testing-patterns.md
    ```
 
-7. Retain AI-specific sections:
+8. Retain AI-specific sections:
    - Import alias enforcement (ESLint rule configuration)
    - CLI detection pattern (import.meta.url explanation)
    - Future enhancements (validation script wrapper)
 
-8. Verify file size reduced to ~100 lines
+9. Verify phased file size reduction:
+   - After removing duplicates (US2): ~585 lines
+   - After migrating patterns (US3): ~100 lines
 
 **Validation**:
 ```bash
-# Check file size
+# Check file size after US2 (duplicates removed)
+wc -l CLAUDE.md  # Should be ~585 lines (patterns still present)
+
+# After completing US3 (patterns migrated to rules)
 wc -l CLAUDE.md  # Should be ~100 lines (vs original 649)
 
 # Verify @ imports present
@@ -302,11 +309,17 @@ grep "import alias" CLAUDE.md  # Should find enforcement section
 grep "CLI detection" CLAUDE.md  # Should find pattern explanation
 ```
 
-**Commit**:
+**Commits**:
 ```bash
 cd .claude
+
+# After US2 (duplicates removed)
 git add ../CLAUDE.md
-git commit -m "refactor: replace content with @ imports, reduce to ~100 lines"
+git commit -m "refactor: use @ imports to reference README, remove duplicates (~585 lines)"
+
+# After US3 (patterns migrated)
+git add ../CLAUDE.md
+git commit -m "refactor: replace pattern sections with @ imports to rule files (~100 lines)"
 ```
 
 ---

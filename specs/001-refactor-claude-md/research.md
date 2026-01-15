@@ -211,6 +211,177 @@
 
 ---
 
+## Official Documentation Analysis
+
+**Source**: https://code.claude.com/docs/en/memory.md (Retrieved: 2026-01-15)
+**Purpose**: Validate specification against authoritative Claude Code documentation
+
+### Key Findings from Official Docs
+
+#### 1. @ Import Syntax Requirements
+
+**Discovery**: @ imports MUST include descriptive context text, not bare file references.
+
+**Official Examples**:
+```markdown
+See @README for project overview and @package.json for available npm commands.
+
+# Additional Instructions
+- git workflow @docs/git-instructions.md
+```
+
+**Incorrect Usage** (found in original spec):
+```markdown
+@README.md
+@.claude/rules/zod-patterns.md
+```
+
+**Correct Usage** (updated in spec):
+```markdown
+See @README.md for complete project overview, installation instructions, and API documentation.
+
+Zod v4 best practices and validation patterns: @.claude/rules/zod-patterns.md
+```
+
+**Impact**: Updated all @ import examples in tasks.md, plan.md, quickstart.md, and data-model.md.
+
+#### 2. CLAUDE.md Location
+
+**Discovery**: Project memory can be stored in **either** `./CLAUDE.md` **or** `./.claude/CLAUDE.md` (not both).
+
+**Official Quote**: "Project memory can be stored in either `./CLAUDE.md` or `./.claude/CLAUDE.md`"
+
+**Decision**: Use ONLY `.claude/CLAUDE.md` (not root with symlink).
+
+**Rationale**: The word "either...or" indicates mutually exclusive options. Symlinks are supported for `.claude/rules/` directory sharing, but not mentioned for CLAUDE.md itself.
+
+**Impact**: Removed symlink reference from plan.md project structure diagram.
+
+#### 3. Memory Hierarchy
+
+From official docs, memory types and precedence:
+
+| Memory Type | Location | Priority | Purpose |
+|-------------|----------|----------|---------|
+| Enterprise policy | `/Library/Application Support/ClaudeCode/` (macOS) | Highest | Organization-wide rules |
+| Project memory | `./.claude/CLAUDE.md` or `./CLAUDE.md` | High | Team-shared instructions |
+| Project rules | `./.claude/rules/*.md` | Same as project memory | Modular, topic-specific |
+| User memory | `~/.claude/CLAUDE.md` | Lower than project | Personal preferences |
+| Project memory (local) | `./CLAUDE.local.md` | Lowest | Private project prefs |
+
+**Key Insight**: Project rules in `.claude/rules/` have same priority as `.claude/CLAUDE.md`, with user-level rules (`~/.claude/rules/`) loaded before project rules.
+
+#### 4. .claude/rules/ Directory Features
+
+**All .md files auto-loaded**: All markdown files in `.claude/rules/` are automatically loaded at project memory priority.
+
+**Path-Specific Rules YAML Frontmatter**:
+```yaml
+---
+paths:
+  - "src/api/**/*.ts"
+  - "lib/**/*.ts"
+  - "tests/**/*.test.ts"
+---
+```
+
+**Glob Pattern Support**:
+- `**/*.ts` - All TypeScript files in any directory
+- `src/**/*` - All files under src/ directory
+- `*.md` - Markdown files in project root
+- `src/**/*.{ts,tsx}` - Brace expansion for multiple extensions
+- `{src,lib}/**/*.ts` - Brace expansion for multiple directories
+
+**Subdirectories**: Rules can be organized into subdirectories (e.g., `frontend/`, `backend/`), all `.md` files discovered recursively.
+
+**Symlinks**: Supported for sharing common rules across projects:
+```bash
+ln -s ~/shared-claude-rules .claude/rules/shared
+ln -s ~/company-standards/security.md .claude/rules/security.md
+```
+
+**Validation**: Our testing-patterns.md frontmatter is correct:
+```yaml
+---
+paths:
+  - "**/*.test.ts"
+  - "**/*.spec.ts"
+---
+```
+
+#### 5. @ Import Advanced Features
+
+**Recursive Imports**: Imported files can recursively import additional files, max depth 5 hops.
+
+**Path Support**:
+- Relative: `@./file.md`, `@../parent/file.md`
+- Absolute project: `@/README.md`
+- User home: `@~/.claude/my-project-instructions.md`
+
+**Code Span Exclusion**: Imports not evaluated inside markdown code spans and code blocks:
+```markdown
+This code span will not be treated as import: `@anthropic-ai/claude-code`
+```
+
+**Recursive Lookup**: Claude Code reads memories recursively from current working directory up to root, discovering nested `CLAUDE.md` files in subtrees only when files in those subtrees are read.
+
+#### 6. Best Practices from Official Docs
+
+For `.claude/rules/`:
+- **Keep rules focused**: Each file should cover one topic
+- **Use descriptive filenames**: Filename should indicate what rules cover
+- **Use conditional rules sparingly**: Only add `paths` frontmatter when rules truly apply to specific file types
+- **Organize with subdirectories**: Group related rules
+
+For CLAUDE.md:
+- **Be specific**: "Use 2-space indentation" better than "Format code properly"
+- **Use structure**: Format as bullet points under descriptive headings
+- **Review periodically**: Update as project evolves
+
+### Specification Updates Made
+
+Based on official documentation analysis:
+
+1. **@ Import Syntax** (HIGH PRIORITY):
+   - Updated all examples to include descriptive context
+   - Affected: tasks.md (T015-T016, T056-T062), quickstart.md, data-model.md, plan.md
+
+2. **CLAUDE.md Location** (HIGH PRIORITY):
+   - Removed symlink reference from plan.md
+   - Clarified single-location requirement
+
+3. **Line Count Expectations** (HIGH PRIORITY):
+   - Documented phased reduction: 649 → ~585 (US2) → ~100 (US3)
+   - Updated spec.md, tasks.md, data-model.md metrics
+
+4. **Task Sequence** (HIGH PRIORITY):
+   - Clarified US2 removes only duplicates (~70 lines)
+   - Clarified US3 migrates patterns (~470 lines)
+   - Updated tasks.md T017-T022 descriptions
+
+5. **RuleFile Entity** (MEDIUM PRIORITY):
+   - Added comprehensive frontmatter documentation
+   - Documented glob patterns and brace expansion support
+   - Documented subdirectory and symlink support
+
+### Validation Against Official Docs
+
+[PASS] @ import syntax - Now matches official examples with descriptive context
+[PASS] Path-specific rules - Frontmatter format validated against official docs
+[PASS] Glob patterns - Using standard patterns from official documentation
+[PASS] Memory hierarchy - Understanding aligns with official hierarchy table
+[PASS] Best practices - Implementation follows official recommendations
+
+### References
+
+- Official Claude Code Documentation: https://code.claude.com/docs/en/memory.md
+- anthropics/claude-code repository analysis via Devin MCP (2026-01-15)
+- Issue analysis: specs/001-refactor-claude-md/issues.md
+- Corrections summary: specs/001-refactor-claude-md/corrections-summary.md
+- Detailed analysis: specs/001-refactor-claude-md/issues-analysis.md
+
+---
+
 ## Technology Decisions
 
 ### Claude Code Features Used
