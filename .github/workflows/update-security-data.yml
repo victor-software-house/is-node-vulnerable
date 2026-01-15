@@ -26,6 +26,21 @@ jobs:
           curl -sSf -o data/security.json \
             https://raw.githubusercontent.com/nodejs/security-wg/main/vuln/core/index.json
 
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Format data files
+        run: pnpm format
+
       - name: Check for changes
         id: changes
         run: |
