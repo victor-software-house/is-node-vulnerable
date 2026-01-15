@@ -34,10 +34,7 @@
 		"prepublishOnly": "pnpm lint && pnpm typecheck && pnpm test && pnpm build"
 	},
 	"lint-staged": {
-		"*.{ts,js,json,md}": [
-			"prettier --write",
-			"eslint --fix"
-		]
+		"*.{ts,js,json,md}": "eslint --fix"
 	},
 	"keywords": [
 		"node",
@@ -70,6 +67,7 @@
 		"eslint": "^9.39.2",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-perfectionist": "^5.3.1",
+		"eslint-plugin-prettier": "^5.5.5",
 		"husky": "^9.1.7",
 		"lint-staged": "^16.2.7",
 		"prettier": "^3.7.4",

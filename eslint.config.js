@@ -2,6 +2,7 @@
 import importAlias from '@dword-design/eslint-plugin-import-alias';
 import eslint from '@eslint/js';
 import perfectionist from 'eslint-plugin-perfectionist';
+import prettier from 'eslint-plugin-prettier/recommended';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
@@ -10,6 +11,7 @@ export default tseslint.config(
 	...tseslint.configs.stylisticTypeChecked,
 	perfectionist.configs['recommended-natural'],
 	importAlias.configs.recommended,
+	prettier,
 	{
 		languageOptions: {
 			parserOptions: {
