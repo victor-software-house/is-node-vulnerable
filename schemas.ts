@@ -2,7 +2,7 @@
  * Zod schemas for Node.js security data validation
  */
 
-import { z } from 'zod';
+import * as z from 'zod';
 
 export const vulnerabilityEntrySchema = z.object({
 	affectedEnvironments: z.array(z.string()).optional(),

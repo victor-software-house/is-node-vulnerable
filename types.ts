@@ -2,7 +2,7 @@
  * Type definitions for Node.js security checker
  */
 
-import * as z4 from 'zod/v4/core';
+import * as z from 'zod';
 
 import type {
 	releaseScheduleEntrySchema,
@@ -11,10 +11,10 @@ import type {
 	vulnerabilityEntrySchema,
 } from '@/schemas';
 
-export type ReleaseSchedule = z4.output<typeof releaseScheduleSchema>;
-export type ReleaseScheduleEntry = z4.output<typeof releaseScheduleEntrySchema>;
-export type SecurityDatabase = z4.output<typeof securityDatabaseSchema>;
-export type VulnerabilityEntry = z4.output<typeof vulnerabilityEntrySchema>;
+export type ReleaseSchedule = z.output<typeof releaseScheduleSchema>;
+export type ReleaseScheduleEntry = z.output<typeof releaseScheduleEntrySchema>;
+export type SecurityDatabase = z.output<typeof securityDatabaseSchema>;
+export type VulnerabilityEntry = z.output<typeof vulnerabilityEntrySchema>;
 
 export const PLATFORMS = [
 	'aix',
