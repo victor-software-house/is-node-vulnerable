@@ -467,7 +467,7 @@ During migration, verify these elements are preserved:
 | Metric | Target | Measurement Method |
 |--------|--------|-------------------|
 | CLAUDE.md size reduction | 649 lines → ~100 lines (85%) | Line count after refactoring |
-| Default context reduction | 50-70% fewer tokens | Compare `/memory` output before/after |
+| Default context reduction | ~20% (zod/typescript always loaded) | Compare `/memory` output before/after |
 | README standalone quality | New developers can onboard using only README | Human validation |
 | Zero duplication | No shared content between README and CLAUDE.md | Manual inspection |
 | Path-specific rules work | testing-patterns.md loads only for test files | Open test file and verify with `/memory` |

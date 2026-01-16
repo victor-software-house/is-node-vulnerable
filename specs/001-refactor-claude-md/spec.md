@@ -54,7 +54,7 @@ As an AI assistant working with the codebase, I need CLAUDE.md to use @ imports 
 
 As an AI assistant processing TypeScript files with Zod schemas, I need topic-specific rules loaded on-demand from `.claude/rules/` directory so that I only load relevant pattern guidance (Zod, TypeScript, testing) when working with related files, optimizing token usage.
 
-**Why this priority**: This is the optimization phase that delivers 50-70% token reduction for on-demand pattern loading. Can be implemented after core refactoring (P1, P2) is complete.
+**Why this priority**: This is the optimization phase that establishes modular structure for maintainability. Delivers 78% CLAUDE.md reduction; zod/typescript always loaded for developer productivity, testing patterns on-demand. Can be implemented after core refactoring (P1, P2) is complete.
 
 **Independent Test**: Can be tested by working on test files and verifying that `testing-patterns.md` is automatically loaded via path-specific rules. For other patterns (Zod, TypeScript), test that Claude loads them contextually when working with relevant code, not unconditionally.
 
