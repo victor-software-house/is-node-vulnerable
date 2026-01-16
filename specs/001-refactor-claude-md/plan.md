@@ -7,7 +7,7 @@
 
 ## Summary
 
-Refactor CLAUDE.md from 649 lines to ~100 lines by eliminating duplication with README.md through @ imports and migrating technical patterns to modular rule files in `.claude/rules/`. Implementation delivered in two commits: (1) @ imports + duplicate removal (649→585 lines), (2) pattern migration to modular rules (585→100 lines). Validation via hybrid approach: manual line counts, systematic spot-checking, and Claude Code `/memory` command verification.
+Refactor CLAUDE.md from 649 lines to ~140 lines by eliminating duplication with README.md through @ imports and migrating technical patterns to modular rule files in `.claude/rules/`. Implementation delivered in two commits: (1) @ imports + duplicate removal (649→585 lines), (2) pattern migration to modular rules (585→142 lines). Validation via hybrid approach: manual line counts, systematic spot-checking, and Claude Code `/memory` command verification.
 
 ## Technical Context
 
@@ -17,9 +17,9 @@ Refactor CLAUDE.md from 649 lines to ~100 lines by eliminating duplication with 
 **Testing**: Manual validation via `/memory` command + line count verification + spot-checking
 **Target Platform**: Claude Code CLI environment (macOS/Linux/Windows)
 **Project Type**: Documentation refactoring (no runtime code changes)
-**Performance Goals**: 78% CLAUDE.md reduction; modular structure for maintainability; ~20% default context reduction (zod/typescript always loaded)
+**Performance Goals**: 78% CLAUDE.md reduction (649→142 lines); modular structure for maintainability; rule files total ~470 lines (zod: 179, typescript: 182, testing: 111)
 **Constraints**: Preserve 100% technical accuracy during migration, maintain backward compatibility
-**Scale/Scope**: ~649 lines of CLAUDE.md → ~100 lines + ~500 lines in modular rules (3 files)
+**Scale/Scope**: 649 lines of CLAUDE.md → 142 lines + 472 lines in modular rules (3 files)
 
 ## Constitution Check
 

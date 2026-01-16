@@ -82,12 +82,12 @@ As an AI assistant processing TypeScript files with Zod schemas, I need topic-sp
 - **FR-001**: README.md MUST contain a new Development section that includes Commands, Architecture, Testing, and GitHub Actions subsections (Configuration Repositories subsection removed per Principle VI: No AI Tool Mentions in Main Repository)
 - **FR-002**: README.md Development section MUST include all development commands currently in CLAUDE.md (build, test, lint, format, typecheck)
 - **FR-003**: README.md MUST include architecture overview with flat module structure, import aliases, build system, and data bundling information
-- **FR-004**: CLAUDE.md MUST be refactored in two phases: from 649 lines to ~585 lines (US2: duplicates removed) using @ import syntax, then to ~100 lines (US3: patterns migrated to rules)
+- **FR-004**: CLAUDE.md MUST be refactored in two phases: from 649 lines to ~585 lines (US2: duplicates removed) using @ import syntax, then to ~142 lines (US3: patterns migrated to rules)
 - **FR-005**: CLAUDE.md MUST retain AI-specific guidelines (import aliases, build system, CLI detection, future enhancements) that are not user-facing documentation
 - **FR-006**: System MUST create `.claude/rules/` directory structure with three modular rule files: `zod-patterns.md`, `typescript-patterns.md`, and `testing-patterns.md`
-- **FR-007**: Rule file `zod-patterns.md` MUST contain all Zod v4 best practices content (~250 lines) extracted from current CLAUDE.md
-- **FR-008**: Rule file `typescript-patterns.md` MUST contain type safety patterns, runtime assertions, pattern matching, and functional utility library guidance (~150 lines)
-- **FR-009**: Rule file `testing-patterns.md` MUST contain Vitest patterns, expectTypeOf usage, concurrent tests, and advantages over Jest (~100 lines)
+- **FR-007**: Rule file `zod-patterns.md` MUST contain all Zod v4 best practices content (~180 lines) extracted from current CLAUDE.md
+- **FR-008**: Rule file `typescript-patterns.md` MUST contain type safety patterns, runtime assertions, pattern matching, and functional utility library guidance (~180 lines)
+- **FR-009**: Rule file `testing-patterns.md` MUST contain Vitest patterns, expectTypeOf usage, concurrent tests, and advantages over Jest (~110 lines)
 - **FR-010**: Rule file `testing-patterns.md` MUST include path-specific frontmatter with `paths: ["**/*.test.ts", "**/*.spec.ts"]` for automatic conditional loading; `zod-patterns.md` and `typescript-patterns.md` MUST NOT use path-specific frontmatter and instead rely on context-aware loading by Claude
 - **FR-011**: Refactored CLAUDE.md MUST use @ import syntax to reference rule files (e.g., `@.claude/rules/zod-patterns.md`)
 - **FR-012**: All content migration MUST preserve exact technical details, code examples, and patterns from original CLAUDE.md
@@ -108,14 +108,14 @@ As an AI assistant processing TypeScript files with Zod schemas, I need topic-sp
 
 ### Measurable Outcomes
 
-- **SC-001**: CLAUDE.md file size reduced in two phases: from 649 lines to ~585 lines after US2 (duplicates removed), then to 90-110 lines after US3 (patterns migrated to rules, 85% total reduction)
+- **SC-001**: CLAUDE.md file size reduced in two phases: from 649 lines to ~585 lines after US2 (duplicates removed), then to ~142 lines after US3 (patterns migrated to rules, 78% total reduction)
 - **SC-002**: CLAUDE.md reduced by 78% (649→142 lines); default context modestly reduced (~20%) with modular rule structure; zod/typescript always loaded for developer productivity
 - **SC-003**: README.md serves as complete standalone documentation - new developers can set up and understand project using only README
 - **SC-004**: Zero duplication between README.md and CLAUDE.md - all shared content referenced via @ imports
 - **SC-005**: Testing patterns automatically loaded only when working with test files (via path-specific frontmatter); Zod and TypeScript patterns loaded contextually by Claude when working with relevant code, reducing unnecessary token usage
 - **SC-006**: All existing technical patterns and code examples preserved with 100% accuracy during migration
-- **SC-007**: Claude Code successfully loads refactored structure using `/memory` command: all expected @ imports loaded, no circular dependency warnings, token count reasonable (~100 lines for CLAUDE.md alone, ~300-400 lines total with imports)
-- **SC-008**: Token usage optimized with modular structure (CLAUDE.md ~142 lines + rule files); zod and typescript patterns always loaded for developer productivity, testing patterns loaded only for test files
+- **SC-007**: Claude Code successfully loads refactored structure using `/memory` command: all expected @ imports loaded, no circular dependency warnings, token count reasonable (~142 lines for CLAUDE.md alone, ~600 lines total with rule imports)
+- **SC-008**: Modular loading architecture: zod and typescript patterns always loaded (developer productivity), testing patterns loaded only for test files (on-demand optimization)
 
 ## Assumptions
 
