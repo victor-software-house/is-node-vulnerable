@@ -301,20 +301,15 @@ Each state is committable to git, allowing rollback:
 | .claude/rules/testing-patterns.md | 0 | 0 | 0 | ~100 | +100 (new file) |
 | **Total** | **799** | **899** | **835** | **850** | **+51 (overhead for structure)** |
 
-**Context Load** (without path-specific loading):
+**Context Load** (default - zod and typescript always loaded):
 - Before: 649 lines (CLAUDE.md only)
-- After: ~100 (CLAUDE.md) + ~250 (zod) + ~150 (typescript) = ~500 lines (23% reduction)
+- After: ~142 (CLAUDE.md) + ~179 (zod) + ~201 (typescript) = ~522 lines (20% reduction)
 
-**Context Load** (with path-specific loading, working on non-test file):
-- After: ~100 (CLAUDE.md) + ~250 (zod) + ~150 (typescript) = ~500 lines (23% reduction)
+**Context Load** (test file - testing patterns also loaded):
+- Before: 649 lines (CLAUDE.md only)
+- After: ~142 (CLAUDE.md) + ~179 (zod) + ~201 (typescript) + ~111 (testing) = ~633 lines (3% increase)
 
-**Context Load** (with path-specific loading, working on test file):
-- After: ~100 (CLAUDE.md) + ~250 (zod) + ~150 (typescript) + ~100 (testing) = ~600 lines (8% reduction)
-
-**Context Load** (working on documentation only):
-- After: ~100 (CLAUDE.md) only = ~100 lines (85% reduction)
-
-**Note**: Primary benefit is eliminating duplication and establishing modular structure. Token savings are secondary and vary by context.
+**Note**: Primary benefit is eliminating duplication between CLAUDE.md and README, and establishing modular structure for maintainability. Token savings are modest due to zod/typescript patterns being always loaded (design decision: developers typically work on TypeScript files).
 
 ---
 

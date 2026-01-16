@@ -97,13 +97,13 @@ paths:
 
 ### Performance Contract
 
-**Requirement**: Default context load MUST be reduced by 50-70%
+**Requirement**: CLAUDE.md MUST be reduced by 75%+; default context modestly reduced with modular structure
 
 **Metrics**:
 - Before: 649 lines (monolithic CLAUDE.md)
-- After: ~100 lines (CLAUDE.md) + conditionally loaded rule files
-- Working on documentation only: ~100 lines (85% reduction)
-- Working on code with all patterns: ~500 lines (23% reduction)
+- After: ~142 lines (CLAUDE.md) + always-loaded rule files (zod, typescript) + conditional testing patterns
+- Default context (any file type): ~522 lines (20% reduction) - zod and typescript always loaded
+- Test file context: ~633 lines (3% increase) - testing patterns also loaded
 
 **Validation**: Measure `/memory` output line count in different contexts.
 

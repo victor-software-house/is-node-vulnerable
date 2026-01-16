@@ -109,13 +109,13 @@ As an AI assistant processing TypeScript files with Zod schemas, I need topic-sp
 ### Measurable Outcomes
 
 - **SC-001**: CLAUDE.md file size reduced in two phases: from 649 lines to ~585 lines after US2 (duplicates removed), then to 90-110 lines after US3 (patterns migrated to rules, 85% total reduction)
-- **SC-002**: Default context loaded by Claude Code reduced by 50-70% through modular rule structure with on-demand loading
+- **SC-002**: CLAUDE.md reduced by 78% (649→142 lines); default context modestly reduced (~20%) with modular rule structure; zod/typescript always loaded for developer productivity
 - **SC-003**: README.md serves as complete standalone documentation - new developers can set up and understand project using only README
 - **SC-004**: Zero duplication between README.md and CLAUDE.md - all shared content referenced via @ imports
 - **SC-005**: Testing patterns automatically loaded only when working with test files (via path-specific frontmatter); Zod and TypeScript patterns loaded contextually by Claude when working with relevant code, reducing unnecessary token usage
 - **SC-006**: All existing technical patterns and code examples preserved with 100% accuracy during migration
 - **SC-007**: Claude Code successfully loads refactored structure using `/memory` command: all expected @ imports loaded, no circular dependency warnings, token count reasonable (~100 lines for CLAUDE.md alone, ~300-400 lines total with imports)
-- **SC-008**: Token usage for pattern loading reduced to zero for contexts not requiring patterns (e.g., working on documentation loads ~100 lines, not ~649 lines)
+- **SC-008**: Token usage optimized with modular structure (CLAUDE.md ~142 lines + rule files); zod and typescript patterns always loaded for developer productivity, testing patterns loaded only for test files
 
 ## Assumptions
 

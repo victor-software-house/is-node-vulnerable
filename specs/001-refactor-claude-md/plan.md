@@ -17,7 +17,7 @@ Refactor CLAUDE.md from 649 lines to ~100 lines by eliminating duplication with 
 **Testing**: Manual validation via `/memory` command + line count verification + spot-checking
 **Target Platform**: Claude Code CLI environment (macOS/Linux/Windows)
 **Project Type**: Documentation refactoring (no runtime code changes)
-**Performance Goals**: 50-70% token reduction for default context loading
+**Performance Goals**: 78% CLAUDE.md reduction; modular structure for maintainability; ~20% default context reduction (zod/typescript always loaded)
 **Constraints**: Preserve 100% technical accuracy during migration, maintain backward compatibility
 **Scale/Scope**: ~649 lines of CLAUDE.md → ~100 lines + ~500 lines in modular rules (3 files)
 
