@@ -185,7 +185,7 @@ description: "Task list for CLAUDE.md refactoring implementation"
 - [x] T079 Run final `/memory` command validation in Claude Code
 - [x] T080 Delete backup file `.claude/CLAUDE.md.backup` if all validations pass
 - [x] T081 Commit polish changes to `.claude/` repository
-- [ ] T082 Create pull request combining both commits (US2 + US3) in main repository
+- [x] T082 Create pull request combining both commits (US2 + US3) in main repository
 
 ---
 
