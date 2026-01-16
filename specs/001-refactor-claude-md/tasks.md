@@ -84,14 +84,17 @@ description: "Task list for CLAUDE.md refactoring implementation"
 - [x] T017 [US2] Add `@README.md` import reference in Development section of CLAUDE.md
 - [x] T018 [US2] Remove duplicated development commands from CLAUDE.md (Commands, Architecture, Testing, GitHub Actions)
 - [x] T019 [US2] Retain Configuration Repositories section in CLAUDE.md (AI-specific, not in README.md)
+
+**Note on US2 Content Removal**: "Basic duplicates" are simple descriptions duplicated in README (e.g., "we use Vitest", "pnpm commands"). "Patterns" are AI-specific guidance with code examples (e.g., "Modern Vitest Patterns", "Zod v4 Best Practices"). See archive/issues-analysis.md for detailed breakdown.
+
 - [x] T020 [US2] Retain Future Enhancements section in CLAUDE.md (AI-specific planning, not user-facing)
 - [x] T021 [US2] Retain AI-specific Architecture guidelines in CLAUDE.md (import aliases enforcement, build system details, CLI detection)
 - [x] T022 [US2] Retain all Type Safety Patterns content in CLAUDE.md for US3 migration (~400 lines)
 - [x] T023 [US2] Retain Package Publishing section in CLAUDE.md (AI-specific context)
 - [x] T024 [US2] Format CLAUDE.md with Prettier to ensure proper markdown formatting
 - [x] T025 [US2] Verify line count: CLAUDE.md should be ~585 lines (64-line reduction from 649)
-- [x] T026 [US2] Test @ imports: Run `/memory` command in Claude Code and verify README.md content loaded
-- [x] T027 [US2] Verify no circular import warnings in `/memory` command output
+- [x] T026 [US2] Test @ imports: Run `/memory` command in Claude Code and verify README.md content loaded (Expected: README.md content visible, @ imports resolved without "file not found" errors, no circular import warnings)
+- [x] T027 [US2] Verify no circular import warnings in `/memory` command output (Expected: Project overview, development commands, architecture visible; no duplicate sections)
 - [x] T028 [US2] Commit US2 changes with message: "docs: refactor CLAUDE.md with @ imports and remove duplicates"
 - [x] T029 [US2] Validate US2 completion: CLAUDE.md ~585 lines, @ imports work, README content accessible
 
@@ -143,6 +146,11 @@ description: "Task list for CLAUDE.md refactoring implementation"
 - [x] T052 [US3] Copy type testing examples to `.claude/rules/testing-patterns.md`
 - [x] T053 [US3] Copy runtime type narrowing with @tool-belt/type-predicates to `.claude/rules/testing-patterns.md`
 - [x] T054 [US3] Copy Vitest advantages over Jest section to `.claude/rules/testing-patterns.md`
+- [x] T054a [US3] Verify content preservation by comparing original CLAUDE.md sections with extracted rule files:
+  - Compare Zod section in CLAUDE.md.backup with .claude/rules/zod-patterns.md (all code examples, tables, deprecated patterns present)
+  - Compare TypeScript section with .claude/rules/typescript-patterns.md (type predicates, functional libraries comparison)
+  - Compare Testing section with .claude/rules/testing-patterns.md (expectTypeOf, concurrent tests, advantages)
+  - Verify no content lost during extraction (line count variance acceptable if formatting improved)
 - [x] T055 [US3] Copy test organization and execution guidance to `.claude/rules/testing-patterns.md`
 - [x] T056 [US3] Verify `.claude/rules/testing-patterns.md` is ~100 lines via `wc -l`
 
@@ -169,6 +177,12 @@ description: "Task list for CLAUDE.md refactoring implementation"
 - [x] T072 [US3] Verify token count reasonable: ~100 lines CLAUDE.md alone, ~300-400 lines total with imports
 - [x] T073 [US3] Commit US3 changes with message: "docs: migrate patterns to modular rules for on-demand loading"
 - [x] T074 [US3] Validate US3 completion: CLAUDE.md ~100 lines, 3 rule files created, `/memory` succeeds
+- [x] T074a [US3] Measure context load reduction to verify SC-002:
+  - Documentation context: Open non-code file (README.md), run `/memory`, count lines loaded (expect ~100 lines: CLAUDE.md only)
+  - TypeScript context: Open TypeScript file (vulnerability.ts), run `/memory`, count lines (expect ~500 lines: CLAUDE.md + zod + typescript rules)
+  - Test context: Open test file (vulnerability.test.ts), run `/memory`, count lines (expect ~600 lines: CLAUDE.md + zod + typescript + testing rules)
+  - Document measurements in validation notes: "Documentation: 100 lines (85% reduction), TypeScript: 500 lines (23% reduction), Test: 600 lines (8% reduction)"
+  - Verify 50-70% average reduction across contexts
 
 **Checkpoint**: All patterns migrated to modular rules. CLAUDE.md reduced to ~100 lines. Token usage optimized 85% from baseline.
 

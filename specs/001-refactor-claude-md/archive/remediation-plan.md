@@ -270,6 +270,23 @@ After applying all remediations:
 
 ---
 
+## Applied Remediations (2026-01-15)
+
+All remediations have been applied:
+
+- [x] **C1 (HIGH)**: Added T054a - content preservation validation task
+- [x] **C2 (HIGH)**: Added T074a - context load measurement task for SC-002
+- [x] **T1 (MEDIUM)**: FR-004 updated with phased reduction (already done)
+- [x] **A1 (MEDIUM)**: Added inline note after T019 about "basic duplicates" vs "patterns"
+- [x] **U2 (MEDIUM)**: Updated T026-T027 with "(Expected: ...)" success criteria
+- [x] **U1 (LOW)**: @ import section reference clarification already in research.md
+- [x] **D1**: No action required (intentional emphasis per Principle VI)
+- [x] **I1**: No action required (acceptable rounding)
+
+**Task Count**: 82 → 84 tasks (added T054a, T074a)
+
+---
+
 ## Commit Strategy
 
 If applying remediations:
