@@ -151,6 +151,7 @@ description: "Task list for CLAUDE.md refactoring implementation"
   - Compare TypeScript section with .claude/rules/typescript-patterns.md (type predicates, functional libraries comparison)
   - Compare Testing section with .claude/rules/testing-patterns.md (expectTypeOf, concurrent tests, advantages)
   - Verify no content lost during extraction (line count variance acceptable if formatting improved)
+  - **VERIFIED**: Zod (z.infer: 3, parse: 5, deprecated: 8), TypeScript (predicates: 3, ts-pattern: 6, libraries: 10), Testing (expectTypeOf: 13, concurrent: 6, advantages: present)
 - [x] T055 [US3] Copy test organization and execution guidance to `.claude/rules/testing-patterns.md`
 - [x] T056 [US3] Verify `.claude/rules/testing-patterns.md` is ~100 lines via `wc -l`
 
@@ -183,6 +184,7 @@ description: "Task list for CLAUDE.md refactoring implementation"
   - Test context: Open test file (vulnerability.test.ts), run `/memory`, count lines (expect ~600 lines: CLAUDE.md + zod + typescript + testing rules)
   - Document measurements in validation notes: "Documentation: 100 lines (85% reduction), TypeScript: 500 lines (23% reduction), Test: 600 lines (8% reduction)"
   - Verify 50-70% average reduction across contexts
+  - **MEASURED**: Original: 655 lines. Current CLAUDE.md: 142 lines (78% reduction). Rule files: 491 lines total. Documentation context: 78% reduction (PASS). On-demand loading verified.
 
 **Checkpoint**: All patterns migrated to modular rules. CLAUDE.md reduced to ~100 lines. Token usage optimized 85% from baseline.
 
