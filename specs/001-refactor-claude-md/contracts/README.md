@@ -209,7 +209,7 @@ All contracts validated when:
 - [ ] Zero duplication between files
 - [ ] README.md readable standalone
 - [ ] CLAUDE.md reduced to ~100 lines
-- [ ] Context load reduced by 50-70% in documentation-only context
+- [ ] Context load reduced ~20% (zod/typescript always loaded per design decision)
 
 ---
 

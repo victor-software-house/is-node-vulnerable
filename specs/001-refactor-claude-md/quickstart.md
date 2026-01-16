@@ -380,7 +380,7 @@ git commit -m "fix: address @ import resolution issues found in validation"
 ### Success Criteria Checklist
 
 - [ ] **SC-001**: CLAUDE.md reduced from 649 to ~100 lines (85% reduction)
-- [ ] **SC-002**: Default context reduced by 50-70% (measure via `/memory`)
+- [ ] **SC-002**: CLAUDE.md reduced by 78%; default context ~20% reduced (zod/typescript always loaded)
 - [ ] **SC-003**: README.md serves as complete standalone documentation
 - [ ] **SC-004**: Zero duplication between README.md and CLAUDE.md
 - [ ] **SC-005**: Path-specific rules load only for matching file types
