@@ -5,6 +5,16 @@
 **Status**: Draft
 **Input**: User description: "Refactor CLAUDE.md to use modular @ imports structure and eliminate duplication with README.md"
 
+## Clarifications
+
+### Session 2026-01-15
+
+- Q: Migration Validation Strategy - When migrating ~400 lines of pattern content to separate rule files, how should accuracy be validated? → A: Hybrid approach - manual line count verification + systematic spot-checking of 5-10 representative examples per rule file + successful Claude Code load test
+- Q: Implementation Phasing Strategy - Should US2 (649→585 lines) and US3 (585→100 lines) be implemented as separate deliverables or combined? → A: Separate commits in single PR - commit 1 for US2 (@ imports, remove duplicates), commit 2 for US3 (modular rules)
+- Q: Path-Specific Rules Loading Scope - Should path-specific loading apply to all three rule files or only testing patterns? → A: Path-specific loading only for testing-patterns.md (test files have predictable extensions); zod-patterns.md and typescript-patterns.md loaded based on context/task rather than file patterns (more flexible for varied extensions and use cases)
+- Q: Handling @ Import Reference Stability - How should @ imports reference README.md content (whole file vs section anchors)? → A: Whole file import only - use `@README.md` to import entire file (only supported mechanism in Claude Code, section anchors not supported)
+- Q: Post-Refactoring Validation Test - What constitutes successful validation for SC-007? → A: `/memory` command shows all expected imports loaded, no circular dependency warnings, token count reasonable (~100 lines for CLAUDE.md alone, ~300-400 lines total with imports)
+
 ## User Scenarios & Testing
 
 ### User Story 1 - Enhanced README with Development Documentation (Priority: P1)
@@ -46,14 +56,14 @@ As an AI assistant processing TypeScript files with Zod schemas, I need topic-sp
 
 **Why this priority**: This is the optimization phase that delivers 50-70% token reduction for on-demand pattern loading. Can be implemented after core refactoring (P1, P2) is complete.
 
-**Independent Test**: Can be tested by working on a TypeScript file with Zod schemas and verifying that only `zod-patterns.md` is loaded, not the entire set of patterns. Similarly, test that working on test files loads `testing-patterns.md` via path-specific rules.
+**Independent Test**: Can be tested by working on test files and verifying that `testing-patterns.md` is automatically loaded via path-specific rules. For other patterns (Zod, TypeScript), test that Claude loads them contextually when working with relevant code, not unconditionally.
 
 **Acceptance Scenarios**:
 
-1. **Given** large Zod v4 patterns section in CLAUDE.md, **When** moved to `.claude/rules/zod-patterns.md`, **Then** patterns are loaded on-demand when working with Zod schemas
-2. **Given** TypeScript type safety patterns in CLAUDE.md, **When** moved to `.claude/rules/typescript-patterns.md`, **Then** patterns are loaded on-demand when working with TypeScript files
-3. **Given** Vitest testing patterns in CLAUDE.md, **When** moved to `.claude/rules/testing-patterns.md` with path-specific frontmatter (`paths: ["**/*.test.ts"]`), **Then** patterns are loaded only when working with test files
-4. **Given** modular rules structure, **When** AI assistant loads project context, **Then** default context is ~100 lines (CLAUDE.md) instead of 649 lines, with patterns available on-demand
+1. **Given** large Zod v4 patterns section in CLAUDE.md, **When** moved to `.claude/rules/zod-patterns.md`, **Then** patterns are loaded contextually when working with Zod schemas (no automatic path-based loading)
+2. **Given** TypeScript type safety patterns in CLAUDE.md, **When** moved to `.claude/rules/typescript-patterns.md`, **Then** patterns are loaded contextually when working with TypeScript files (no automatic path-based loading)
+3. **Given** Vitest testing patterns in CLAUDE.md, **When** moved to `.claude/rules/testing-patterns.md` with path-specific frontmatter (`paths: ["**/*.test.ts", "**/*.spec.ts"]`), **Then** patterns are automatically loaded only when working with test files
+4. **Given** modular rules structure, **When** AI assistant loads project context, **Then** default context is ~100 lines (CLAUDE.md) instead of 649 lines, with patterns available on-demand via context-aware loading or explicit @ imports
 
 ---
 
@@ -62,7 +72,7 @@ As an AI assistant processing TypeScript files with Zod schemas, I need topic-sp
 - What happens when @ import references non-existent file? Claude Code should show clear error message indicating missing file.
 - What happens when circular @ imports are created? Claude Code detects and handles circular imports (max depth: 5 hops per documentation).
 - What happens when path-specific rules frontmatter uses invalid glob patterns? Patterns should fail gracefully and load rules unconditionally as fallback.
-- What happens when README.md is updated but CLAUDE.md still references old section names? @ imports should reference section headers or file paths, not line numbers, to remain stable.
+- What happens when README.md is restructured after CLAUDE.md @ imports it? @ imports use whole-file references (e.g., `@README.md`), which are immune to internal restructuring - no section-specific anchors needed or supported.
 - What happens when rules need to be shared across multiple projects? `.claude/rules/` supports symlinks to shared rules directories (e.g., `~/.claude/shared-rules/`).
 
 ## Requirements
@@ -78,10 +88,13 @@ As an AI assistant processing TypeScript files with Zod schemas, I need topic-sp
 - **FR-007**: Rule file `zod-patterns.md` MUST contain all Zod v4 best practices content (~250 lines) extracted from current CLAUDE.md
 - **FR-008**: Rule file `typescript-patterns.md` MUST contain type safety patterns, runtime assertions, pattern matching, and functional utility library guidance (~150 lines)
 - **FR-009**: Rule file `testing-patterns.md` MUST contain Vitest patterns, expectTypeOf usage, concurrent tests, and advantages over Jest (~100 lines)
-- **FR-010**: Rule file `testing-patterns.md` MUST include path-specific frontmatter with `paths: ["**/*.test.ts", "**/*.spec.ts"]` for conditional loading
+- **FR-010**: Rule file `testing-patterns.md` MUST include path-specific frontmatter with `paths: ["**/*.test.ts", "**/*.spec.ts"]` for automatic conditional loading; `zod-patterns.md` and `typescript-patterns.md` MUST NOT use path-specific frontmatter and instead rely on context-aware loading by Claude
 - **FR-011**: Refactored CLAUDE.md MUST use @ import syntax to reference rule files (e.g., `@.claude/rules/zod-patterns.md`)
 - **FR-012**: All content migration MUST preserve exact technical details, code examples, and patterns from original CLAUDE.md
 - **FR-013**: System MUST maintain backward compatibility - Claude Code must successfully load and parse all @ imports and path-specific rules
+- **FR-014**: Implementation MUST be delivered as separate commits within a single pull request: commit 1 for US2 (@ imports, duplicate removal), commit 2 for US3 (modular rules migration)
+- **FR-015**: Migration validation MUST use hybrid approach: manual line count verification + systematic spot-checking of 5-10 representative examples per rule file + successful Claude Code load test via `/memory` command
+- **FR-016**: All @ import references MUST use whole-file syntax (e.g., `@README.md`, `@.claude/rules/zod-patterns.md`) without section-specific anchors, as Claude Code does not support anchor-based imports
 
 ### Key Entities
 
@@ -99,9 +112,9 @@ As an AI assistant processing TypeScript files with Zod schemas, I need topic-sp
 - **SC-002**: Default context loaded by Claude Code reduced by 50-70% through modular rule structure with on-demand loading
 - **SC-003**: README.md serves as complete standalone documentation - new developers can set up and understand project using only README
 - **SC-004**: Zero duplication between README.md and CLAUDE.md - all shared content referenced via @ imports
-- **SC-005**: Pattern-specific rules (Zod, TypeScript, testing) loaded only when working with relevant file types, verified by testing with path-specific file examples
+- **SC-005**: Testing patterns automatically loaded only when working with test files (via path-specific frontmatter); Zod and TypeScript patterns loaded contextually by Claude when working with relevant code, reducing unnecessary token usage
 - **SC-006**: All existing technical patterns and code examples preserved with 100% accuracy during migration
-- **SC-007**: Claude Code successfully loads refactored structure using `/memory` command without errors
+- **SC-007**: Claude Code successfully loads refactored structure using `/memory` command: all expected @ imports loaded, no circular dependency warnings, token count reasonable (~100 lines for CLAUDE.md alone, ~300-400 lines total with imports)
 - **SC-008**: Token usage for pattern loading reduced to zero for contexts not requiring patterns (e.g., working on documentation loads ~100 lines, not ~649 lines)
 
 ## Assumptions
