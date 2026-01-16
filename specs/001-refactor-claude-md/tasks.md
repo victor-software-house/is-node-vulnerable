@@ -31,9 +31,9 @@ description: "Task list for CLAUDE.md refactoring implementation"
 
 **Note**: This is a pure documentation refactoring. No project structure changes or dependency installation required.
 
-- [ ] T001 Verify current CLAUDE.md line count is 649 lines via `wc -l .claude/CLAUDE.md`
-- [ ] T002 Create backup of current CLAUDE.md in `.claude/CLAUDE.md.backup`
-- [ ] T003 Verify `.claude/` is independent git repository with `cd .claude && git status`
+- [x] T001 Verify current CLAUDE.md line count is 649 lines via `wc -l .claude/CLAUDE.md`
+- [x] T002 Create backup of current CLAUDE.md in `.claude/CLAUDE.md.backup`
+- [x] T003 Verify `.claude/` is independent git repository with `cd .claude && git status`
 
 ---
 
@@ -55,16 +55,16 @@ description: "Task list for CLAUDE.md refactoring implementation"
 
 ### Implementation for User Story 1
 
-- [ ] T004 [US1] Read current CLAUDE.md to identify all development content to extract (lines 1-649)
-- [ ] T005 [P] [US1] Create Development section outline in README.md after API section
-- [ ] T006 [P] [US1] Add Commands subsection to README.md with all pnpm commands (build, test, lint, format, typecheck)
-- [ ] T007 [P] [US1] Add Architecture subsection to README.md with flat module structure, import aliases, build system, data bundling
-- [ ] T008 [P] [US1] Add Testing subsection to README.md with Vitest patterns, test organization, running tests
-- [ ] T009 [P] [US1] Add GitHub Actions subsection to README.md with daily automation, data validation, publishing workflow
-- [ ] T010 [US1] Verify Development section completeness by comparing against CLAUDE.md Development content
-- [ ] T011 [US1] Remove "Configuration Repositories" subsection from README.md per FR-001 (Principle VI: No AI Tool Mentions)
-- [ ] T012 [US1] Format README.md with Prettier to ensure proper markdown formatting
-- [ ] T013 [US1] Validate US1 completion: README.md has comprehensive Development section, no AI tool mentions
+- [x] T004 [US1] Read current CLAUDE.md to identify all development content to extract (lines 1-649)
+- [x] T005 [P] [US1] Create Development section outline in README.md after API section
+- [x] T006 [P] [US1] Add Commands subsection to README.md with all pnpm commands (build, test, lint, format, typecheck)
+- [x] T007 [P] [US1] Add Architecture subsection to README.md with flat module structure, import aliases, build system, data bundling
+- [x] T008 [P] [US1] Add Testing subsection to README.md with Vitest patterns, test organization, running tests
+- [x] T009 [P] [US1] Add GitHub Actions subsection to README.md with daily automation, data validation, publishing workflow
+- [x] T010 [US1] Verify Development section completeness by comparing against CLAUDE.md Development content
+- [x] T011 [US1] Remove "Configuration Repositories" subsection from README.md per FR-001 (Principle VI: No AI Tool Mentions)
+- [x] T012 [US1] Format README.md with Prettier to ensure proper markdown formatting
+- [x] T013 [US1] Validate US1 completion: README.md has comprehensive Development section, no AI tool mentions
 
 **Checkpoint**: README.md now serves as complete standalone documentation for developers. CLAUDE.md can now reference it via @ imports.
 
@@ -78,22 +78,22 @@ description: "Task list for CLAUDE.md refactoring implementation"
 
 ### Implementation for User Story 2
 
-- [ ] T014 [US2] Read current CLAUDE.md and identify all content duplicated in README.md Development section
-- [ ] T015 [US2] Add `@README.md` import at top of CLAUDE.md Project Overview section
-- [ ] T016 [US2] Remove duplicated project overview content from CLAUDE.md (keep only `@README.md` reference)
-- [ ] T017 [US2] Add `@README.md` import reference in Development section of CLAUDE.md
-- [ ] T018 [US2] Remove duplicated development commands from CLAUDE.md (Commands, Architecture, Testing, GitHub Actions)
-- [ ] T019 [US2] Retain Configuration Repositories section in CLAUDE.md (AI-specific, not in README.md)
-- [ ] T020 [US2] Retain Future Enhancements section in CLAUDE.md (AI-specific planning, not user-facing)
-- [ ] T021 [US2] Retain AI-specific Architecture guidelines in CLAUDE.md (import aliases enforcement, build system details, CLI detection)
-- [ ] T022 [US2] Retain all Type Safety Patterns content in CLAUDE.md for US3 migration (~400 lines)
-- [ ] T023 [US2] Retain Package Publishing section in CLAUDE.md (AI-specific context)
-- [ ] T024 [US2] Format CLAUDE.md with Prettier to ensure proper markdown formatting
-- [ ] T025 [US2] Verify line count: CLAUDE.md should be ~585 lines (64-line reduction from 649)
-- [ ] T026 [US2] Test @ imports: Run `/memory` command in Claude Code and verify README.md content loaded
-- [ ] T027 [US2] Verify no circular import warnings in `/memory` command output
-- [ ] T028 [US2] Commit US2 changes with message: "docs: refactor CLAUDE.md with @ imports and remove duplicates"
-- [ ] T029 [US2] Validate US2 completion: CLAUDE.md ~585 lines, @ imports work, README content accessible
+- [x] T014 [US2] Read current CLAUDE.md and identify all content duplicated in README.md Development section
+- [x] T015 [US2] Add `@README.md` import at top of CLAUDE.md Project Overview section
+- [x] T016 [US2] Remove duplicated project overview content from CLAUDE.md (keep only `@README.md` reference)
+- [x] T017 [US2] Add `@README.md` import reference in Development section of CLAUDE.md
+- [x] T018 [US2] Remove duplicated development commands from CLAUDE.md (Commands, Architecture, Testing, GitHub Actions)
+- [x] T019 [US2] Retain Configuration Repositories section in CLAUDE.md (AI-specific, not in README.md)
+- [x] T020 [US2] Retain Future Enhancements section in CLAUDE.md (AI-specific planning, not user-facing)
+- [x] T021 [US2] Retain AI-specific Architecture guidelines in CLAUDE.md (import aliases enforcement, build system details, CLI detection)
+- [x] T022 [US2] Retain all Type Safety Patterns content in CLAUDE.md for US3 migration (~400 lines)
+- [x] T023 [US2] Retain Package Publishing section in CLAUDE.md (AI-specific context)
+- [x] T024 [US2] Format CLAUDE.md with Prettier to ensure proper markdown formatting
+- [x] T025 [US2] Verify line count: CLAUDE.md should be ~585 lines (64-line reduction from 649)
+- [x] T026 [US2] Test @ imports: Run `/memory` command in Claude Code and verify README.md content loaded
+- [x] T027 [US2] Verify no circular import warnings in `/memory` command output
+- [x] T028 [US2] Commit US2 changes with message: "docs: refactor CLAUDE.md with @ imports and remove duplicates"
+- [x] T029 [US2] Validate US2 completion: CLAUDE.md ~585 lines, @ imports work, README content accessible
 
 **Checkpoint**: CLAUDE.md now uses @ imports to reference README.md. Duplicate content eliminated. Patterns retained for US3 migration.
 
@@ -109,66 +109,66 @@ description: "Task list for CLAUDE.md refactoring implementation"
 
 #### Create Rule Files
 
-- [ ] T030 [P] [US3] Create `.claude/rules/` directory in claude config repository
-- [ ] T031 [P] [US3] Create `.claude/rules/zod-patterns.md` file with YAML frontmatter (no paths field)
-- [ ] T032 [P] [US3] Create `.claude/rules/typescript-patterns.md` file with YAML frontmatter (no paths field)
-- [ ] T033 [P] [US3] Create `.claude/rules/testing-patterns.md` file with YAML frontmatter including `paths: ["**/*.test.ts", "**/*.spec.ts"]`
+- [x] T030 [P] [US3] Create `.claude/rules/` directory in claude config repository
+- [x] T031 [P] [US3] Create `.claude/rules/zod-patterns.md` file with YAML frontmatter (no paths field)
+- [x] T032 [P] [US3] Create `.claude/rules/typescript-patterns.md` file with YAML frontmatter (no paths field)
+- [x] T033 [P] [US3] Create `.claude/rules/testing-patterns.md` file with YAML frontmatter including `paths: ["**/*.test.ts", "**/*.spec.ts"]`
 
 #### Migrate Zod Patterns
 
-- [ ] T034 [US3] Extract Zod v4 content from CLAUDE.md (Zod Import Pattern, Type Inference, Parsing Strategies, Advanced Patterns sections)
-- [ ] T035 [US3] Copy Zod namespace import pattern to `.claude/rules/zod-patterns.md`
-- [ ] T036 [US3] Copy type inference examples (z.infer, z.input, z.output) to `.claude/rules/zod-patterns.md`
-- [ ] T037 [US3] Copy parsing strategies (.parse vs .safeParse) to `.claude/rules/zod-patterns.md`
-- [ ] T038 [US3] Copy advanced validation patterns (preprocess, transform, refine, superRefine) to `.claude/rules/zod-patterns.md`
-- [ ] T039 [US3] Copy Zod v4 improvements section to `.claude/rules/zod-patterns.md`
-- [ ] T040 [US3] Copy deprecated Zod v4 patterns section to `.claude/rules/zod-patterns.md`
-- [ ] T041 [US3] Copy common anti-patterns section to `.claude/rules/zod-patterns.md`
-- [ ] T042 [US3] Verify `.claude/rules/zod-patterns.md` is ~250 lines via `wc -l`
+- [x] T034 [US3] Extract Zod v4 content from CLAUDE.md (Zod Import Pattern, Type Inference, Parsing Strategies, Advanced Patterns sections)
+- [x] T035 [US3] Copy Zod namespace import pattern to `.claude/rules/zod-patterns.md`
+- [x] T036 [US3] Copy type inference examples (z.infer, z.input, z.output) to `.claude/rules/zod-patterns.md`
+- [x] T037 [US3] Copy parsing strategies (.parse vs .safeParse) to `.claude/rules/zod-patterns.md`
+- [x] T038 [US3] Copy advanced validation patterns (preprocess, transform, refine, superRefine) to `.claude/rules/zod-patterns.md`
+- [x] T039 [US3] Copy Zod v4 improvements section to `.claude/rules/zod-patterns.md`
+- [x] T040 [US3] Copy deprecated Zod v4 patterns section to `.claude/rules/zod-patterns.md`
+- [x] T041 [US3] Copy common anti-patterns section to `.claude/rules/zod-patterns.md`
+- [x] T042 [US3] Verify `.claude/rules/zod-patterns.md` is ~250 lines via `wc -l`
 
 #### Migrate TypeScript Patterns
 
-- [ ] T043 [US3] Extract TypeScript type safety content from CLAUDE.md (Runtime Assertions, Pattern Matching, Functional Libraries sections)
-- [ ] T044 [US3] Copy runtime assertions with @tool-belt/type-predicates to `.claude/rules/typescript-patterns.md`
-- [ ] T045 [US3] Copy type narrowing after noUncheckedIndexedAccess to `.claude/rules/typescript-patterns.md`
-- [ ] T046 [US3] Copy ts-pattern usage (when to use, best practices, examples) to `.claude/rules/typescript-patterns.md`
-- [ ] T047 [US3] Copy functional utility libraries section (Remeda, ts-belt, Radash) to `.claude/rules/typescript-patterns.md`
-- [ ] T048 [US3] Copy library comparison and usage examples to `.claude/rules/typescript-patterns.md`
-- [ ] T049 [US3] Verify `.claude/rules/typescript-patterns.md` is ~150 lines via `wc -l`
+- [x] T043 [US3] Extract TypeScript type safety content from CLAUDE.md (Runtime Assertions, Pattern Matching, Functional Libraries sections)
+- [x] T044 [US3] Copy runtime assertions with @tool-belt/type-predicates to `.claude/rules/typescript-patterns.md`
+- [x] T045 [US3] Copy type narrowing after noUncheckedIndexedAccess to `.claude/rules/typescript-patterns.md`
+- [x] T046 [US3] Copy ts-pattern usage (when to use, best practices, examples) to `.claude/rules/typescript-patterns.md`
+- [x] T047 [US3] Copy functional utility libraries section (Remeda, ts-belt, Radash) to `.claude/rules/typescript-patterns.md`
+- [x] T048 [US3] Copy library comparison and usage examples to `.claude/rules/typescript-patterns.md`
+- [x] T049 [US3] Verify `.claude/rules/typescript-patterns.md` is ~150 lines via `wc -l`
 
 #### Migrate Testing Patterns
 
-- [ ] T050 [US3] Extract Vitest testing content from CLAUDE.md (Modern Patterns, Type Testing, Runtime Assertions sections)
-- [ ] T051 [US3] Copy modern Vitest patterns (expectTypeOf, concurrent tests) to `.claude/rules/testing-patterns.md`
-- [ ] T052 [US3] Copy type testing examples to `.claude/rules/testing-patterns.md`
-- [ ] T053 [US3] Copy runtime type narrowing with @tool-belt/type-predicates to `.claude/rules/testing-patterns.md`
-- [ ] T054 [US3] Copy Vitest advantages over Jest section to `.claude/rules/testing-patterns.md`
-- [ ] T055 [US3] Copy test organization and execution guidance to `.claude/rules/testing-patterns.md`
-- [ ] T056 [US3] Verify `.claude/rules/testing-patterns.md` is ~100 lines via `wc -l`
+- [x] T050 [US3] Extract Vitest testing content from CLAUDE.md (Modern Patterns, Type Testing, Runtime Assertions sections)
+- [x] T051 [US3] Copy modern Vitest patterns (expectTypeOf, concurrent tests) to `.claude/rules/testing-patterns.md`
+- [x] T052 [US3] Copy type testing examples to `.claude/rules/testing-patterns.md`
+- [x] T053 [US3] Copy runtime type narrowing with @tool-belt/type-predicates to `.claude/rules/testing-patterns.md`
+- [x] T054 [US3] Copy Vitest advantages over Jest section to `.claude/rules/testing-patterns.md`
+- [x] T055 [US3] Copy test organization and execution guidance to `.claude/rules/testing-patterns.md`
+- [x] T056 [US3] Verify `.claude/rules/testing-patterns.md` is ~100 lines via `wc -l`
 
 #### Update CLAUDE.md
 
-- [ ] T057 [US3] Remove all Zod patterns from CLAUDE.md (content now in zod-patterns.md)
-- [ ] T058 [US3] Remove all TypeScript patterns from CLAUDE.md (content now in typescript-patterns.md)
-- [ ] T059 [US3] Remove all testing patterns from CLAUDE.md (content now in testing-patterns.md)
-- [ ] T060 [US3] Add `@.claude/rules/typescript-patterns.md` reference to TypeScript Configuration section in CLAUDE.md
-- [ ] T061 [US3] Add note in CLAUDE.md about context-aware loading for zod-patterns.md and typescript-patterns.md
-- [ ] T062 [US3] Add note in CLAUDE.md about automatic path-based loading for testing-patterns.md
-- [ ] T063 [US3] Format CLAUDE.md with Prettier to ensure proper markdown formatting
+- [x] T057 [US3] Remove all Zod patterns from CLAUDE.md (content now in zod-patterns.md)
+- [x] T058 [US3] Remove all TypeScript patterns from CLAUDE.md (content now in typescript-patterns.md)
+- [x] T059 [US3] Remove all testing patterns from CLAUDE.md (content now in testing-patterns.md)
+- [x] T060 [US3] Add `@.claude/rules/typescript-patterns.md` reference to TypeScript Configuration section in CLAUDE.md
+- [x] T061 [US3] Add note in CLAUDE.md about context-aware loading for zod-patterns.md and typescript-patterns.md
+- [x] T062 [US3] Add note in CLAUDE.md about automatic path-based loading for testing-patterns.md
+- [x] T063 [US3] Format CLAUDE.md with Prettier to ensure proper markdown formatting
 
 #### Validation
 
-- [ ] T064 [US3] Verify CLAUDE.md line count is 90-110 lines via `wc -l .claude/CLAUDE.md`
-- [ ] T065 [US3] Verify total pattern lines: zod-patterns.md (~250) + typescript-patterns.md (~150) + testing-patterns.md (~100) = ~500 lines
-- [ ] T066 [US3] Spot-check 5-10 Zod examples in zod-patterns.md for accuracy (compare against backup)
-- [ ] T067 [US3] Spot-check 5-10 TypeScript examples in typescript-patterns.md for accuracy (compare against backup)
-- [ ] T068 [US3] Spot-check 5-10 Vitest examples in testing-patterns.md for accuracy (compare against backup)
-- [ ] T069 [US3] Test path-specific loading: Create temporary test file, verify testing-patterns.md loaded
-- [ ] T070 [US3] Run `/memory` command in Claude Code and verify all @ imports loaded successfully
-- [ ] T071 [US3] Verify no circular dependency warnings in `/memory` command output
-- [ ] T072 [US3] Verify token count reasonable: ~100 lines CLAUDE.md alone, ~300-400 lines total with imports
-- [ ] T073 [US3] Commit US3 changes with message: "docs: migrate patterns to modular rules for on-demand loading"
-- [ ] T074 [US3] Validate US3 completion: CLAUDE.md ~100 lines, 3 rule files created, `/memory` succeeds
+- [x] T064 [US3] Verify CLAUDE.md line count is 90-110 lines via `wc -l .claude/CLAUDE.md`
+- [x] T065 [US3] Verify total pattern lines: zod-patterns.md (~250) + typescript-patterns.md (~150) + testing-patterns.md (~100) = ~500 lines
+- [x] T066 [US3] Spot-check 5-10 Zod examples in zod-patterns.md for accuracy (compare against backup)
+- [x] T067 [US3] Spot-check 5-10 TypeScript examples in typescript-patterns.md for accuracy (compare against backup)
+- [x] T068 [US3] Spot-check 5-10 Vitest examples in testing-patterns.md for accuracy (compare against backup)
+- [x] T069 [US3] Test path-specific loading: Create temporary test file, verify testing-patterns.md loaded
+- [x] T070 [US3] Run `/memory` command in Claude Code and verify all @ imports loaded successfully
+- [x] T071 [US3] Verify no circular dependency warnings in `/memory` command output
+- [x] T072 [US3] Verify token count reasonable: ~100 lines CLAUDE.md alone, ~300-400 lines total with imports
+- [x] T073 [US3] Commit US3 changes with message: "docs: migrate patterns to modular rules for on-demand loading"
+- [x] T074 [US3] Validate US3 completion: CLAUDE.md ~100 lines, 3 rule files created, `/memory` succeeds
 
 **Checkpoint**: All patterns migrated to modular rules. CLAUDE.md reduced to ~100 lines. Token usage optimized 85% from baseline.
 
@@ -178,13 +178,13 @@ description: "Task list for CLAUDE.md refactoring implementation"
 
 **Purpose**: Final validation and cleanup
 
-- [ ] T075 [P] Update `.claude/CLAUDE.md` Active Technologies section with completed refactoring metadata
-- [ ] T076 [P] Update `.claude/CLAUDE.md` Recent Changes section with refactoring summary
-- [ ] T077 Verify total line reduction: 649 → ~100 lines (85% reduction achieved)
-- [ ] T078 Verify zero duplication: Run manual comparison between README.md and CLAUDE.md
-- [ ] T079 Run final `/memory` command validation in Claude Code
-- [ ] T080 Delete backup file `.claude/CLAUDE.md.backup` if all validations pass
-- [ ] T081 Commit polish changes to `.claude/` repository
+- [x] T075 [P] Update `.claude/CLAUDE.md` Active Technologies section with completed refactoring metadata
+- [x] T076 [P] Update `.claude/CLAUDE.md` Recent Changes section with refactoring summary
+- [x] T077 Verify total line reduction: 649 → ~100 lines (85% reduction achieved)
+- [x] T078 Verify zero duplication: Run manual comparison between README.md and CLAUDE.md
+- [x] T079 Run final `/memory` command validation in Claude Code
+- [x] T080 Delete backup file `.claude/CLAUDE.md.backup` if all validations pass
+- [x] T081 Commit polish changes to `.claude/` repository
 - [ ] T082 Create pull request combining both commits (US2 + US3) in main repository
 
 ---
